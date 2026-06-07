@@ -97,13 +97,25 @@ jobs:
         if: steps.cloudflare-secrets.outputs.configured == 'true'
         run: pnpm run build:docs
 
+      - name: Prepare docs Worker CI config
+        if: steps.cloudflare-secrets.outputs.configured == 'true'
+        working-directory: apps/docs-worker
+        run: |
+          node --input-type=module <<'EOF'
+          import { readFileSync, writeFileSync } from "node:fs";
+
+          const config = JSON.parse(readFileSync("wrangler.jsonc", "utf8"));
+          delete config.routes;
+          writeFileSync("wrangler.ci.jsonc", `${JSON.stringify(config, null, 2)}\n`);
+          EOF
+
       - name: Deploy docs Worker
         if: steps.cloudflare-secrets.outputs.configured == 'true'
         working-directory: apps/docs-worker
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: pnpm exec wrangler deploy
+        run: pnpm exec wrangler deploy --config wrangler.ci.jsonc
 
       - name: Skip docs Worker deploy
         if: steps.cloudflare-secrets.outputs.configured != 'true'
