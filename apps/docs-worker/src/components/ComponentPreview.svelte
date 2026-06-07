@@ -1,22 +1,13 @@
 <script lang="ts">
   import CodeBlock from "./CodeBlock.svelte";
-  import CopyButton from "./CopyButton.svelte";
   import PatchbayExample from "./PatchbayExample.svelte";
-  import { activeCodeVariant } from "../lib/code-variant-state";
-  import type {
-    CodeVariantId,
-    CodeVariantSource,
-  } from "../lib/code-variants";
+  import type { CodeVariantSource } from "../lib/code-variants";
 
   export let code: string;
   export let codeVariants: CodeVariantSource[];
   export let description: string;
   export let id: string;
-  export let markdownByVariant: Record<CodeVariantId, string>;
   export let title: string;
-
-  $: selectedMarkdown =
-    markdownByVariant[$activeCodeVariant] ?? markdownByVariant.svelte;
 </script>
 
 <section
@@ -24,9 +15,7 @@
   data-component-preview=""
   {id}
 >
-  <div
-    class="mb-4 flex min-w-0 items-start justify-between gap-[18px] max-[860px]:[display:grid]"
-  >
+  <div class="mb-4 min-w-0">
     <div class="min-w-0">
       <h2 class="m-0 text-[26px] leading-[1.15] text-[var(--text-color)]">
         {title}
@@ -35,11 +24,6 @@
         {description}
       </p>
     </div>
-    <CopyButton
-      label="Copy Markdown"
-      successLabel="Markdown copied"
-      text={selectedMarkdown}
-    />
   </div>
   <div
     class="[display:grid] min-h-[250px] place-items-center rounded-t-md border border-[rgba(244,239,225,0.1)] bg-[#151611] p-6"

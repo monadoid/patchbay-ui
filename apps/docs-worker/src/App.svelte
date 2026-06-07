@@ -103,12 +103,12 @@
         Install
       </p>
       <h2 class="m-0 text-[26px] leading-[1.15] text-[var(--text-color)]">
-        Copy one setup path.
+        Give this to your LLM.
       </h2>
       <p class="mt-2.5 mb-0 max-w-[56rem] leading-[1.55] text-[var(--docs-muted)]">
-        Choose a renderer, then copy the whole block into your editor or hand
-        it to an LLM. It includes the install command, the one-time CSS/setup
-        step, the optional Tailwind theme, and a first control.
+        Choose a framework and copy the whole block. Install the npm package,
+        add the base CSS, and optionally add the Tailwind theme (or use without
+        Tailwind).
       </p>
     </div>
     <div class="[display:grid] min-w-0 gap-3.5">
@@ -134,7 +134,6 @@
           codeVariants={example.codeVariants}
           description={example.description}
           id={example.id}
-          markdownByVariant={example.markdownByVariant}
           title={example.title}
         />
       {/each}

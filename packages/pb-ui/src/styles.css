@@ -1462,6 +1462,7 @@
 
 .macro-rack {
   --macro-rack-columns: 4;
+  --macro-rack-max-inline-size: 420px;
   --macro-rack-control-min: 64px;
   container-type: inline-size;
   display: grid;
@@ -1471,6 +1472,7 @@
   );
   align-items: end;
   gap: 12px clamp(4px, 3cqi, 10px);
+  inline-size: min(100%, var(--macro-rack-max-inline-size));
   min-inline-size: 0;
   padding: 12px;
   background: rgba(16, 16, 16, 0.42);
