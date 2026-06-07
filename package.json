@@ -1,0 +1,32 @@
+{
+  "name": "patchbay-ui",
+  "private": true,
+  "version": "0.0.0",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "vp dev apps/pb-ui-lab --host 127.0.0.1 --port 7010",
+    "dev:docs": "vp run --filter @patchbay/docs-worker dev",
+    "dev:docs:preview": "vp run --filter @patchbay/docs-worker dev:preview",
+    "build": "vp run -r build",
+    "build:docs": "vp run --filter @patchbay/docs-worker build",
+    "build:lab": "vp run --filter @patchbay/lab build",
+    "check-types": "vp run -r check-types",
+    "test": "vp run --filter @patchbay/ui test",
+    "test:browser": "vp run --filter @patchbay/lab test:browser"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "@vitest/browser-playwright": "^4.1.8",
+    "playwright": "^1.60.0",
+    "typescript": "5.9.3",
+    "vite": "^8.0.16",
+    "vite-plus": "^0.1.24",
+    "vitest": "^4.1.8"
+  },
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "packageManager": "pnpm@10.25.0"
+}

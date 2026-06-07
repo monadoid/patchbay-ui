@@ -1,0 +1,28 @@
+{
+  "name": "@patchbay/react",
+  "private": true,
+  "version": "0.0.0",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.tsx",
+    "./styles.css": "./src/styles.css",
+    "./tailwind.css": "./src/tailwind.css"
+  },
+  "scripts": {
+    "check-types": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@patchbay/ui": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
+  }
+}

@@ -1,0 +1,26 @@
+:root {
+  color-scheme: dark;
+  --docs-bg: #181916;
+  --docs-surface: #22231f;
+  --docs-surface-raised: #2b2c27;
+  --docs-line: #11120f;
+  --docs-line-soft: rgba(244, 239, 225, 0.12);
+  --docs-ink: #f4efe1;
+  --docs-muted: #bcb6a7;
+  --docs-code: #151611;
+  --docs-gold: #d6b66a;
+  --control-bg: #242520;
+  --control-active-bg: #9cd8ca;
+  --control-border: #1b1d1a;
+  --focus-border: #9cd8ca;
+  --slider-color: #181a18;
+  --modulation-color: #9cd8ca;
+  --indicator-color: #ece7d8;
+  --indicator-active-color: #9cd8ca;
+  --indicator-border-color: #4b5550;
+  --text-color: #f4efe1;
+  --muted-text-color: #bcb6a7;
+  --panel-color: #3b3b3b;
+  --gridline-color: rgba(236, 231, 216, 0.14);
+  --control-radius: 4px;
+}

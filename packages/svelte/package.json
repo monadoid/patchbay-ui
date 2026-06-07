@@ -1,0 +1,29 @@
+{
+  "name": "@patchbay/svelte",
+  "private": true,
+  "version": "0.0.0",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "svelte": "./src/index.ts",
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
+    "./styles.css": "./src/styles.css",
+    "./tailwind.css": "./src/tailwind.css"
+  },
+  "scripts": {
+    "check-types": "svelte-check --tsconfig tsconfig.json"
+  },
+  "dependencies": {
+    "@patchbay/ui": "workspace:*"
+  },
+  "peerDependencies": {
+    "svelte": "^5.0.0"
+  },
+  "devDependencies": {
+    "svelte": "^5.0.0",
+    "svelte-check": "^4.0.0"
+  }
+}

@@ -1,0 +1,31 @@
+@theme inline {
+  --color-patchbay-bg: var(--control-bg);
+  --color-patchbay-active: var(--control-active-bg);
+  --color-patchbay-border: var(--control-border);
+  --color-patchbay-focus: var(--focus-border);
+  --color-slider: var(--slider-color);
+  --color-patchbay-modulation: var(--modulation-color);
+  --color-patchbay-indicator: var(--indicator-color);
+  --color-patchbay-text: var(--text-color);
+  --color-patchbay-muted: var(--muted-text-color);
+  --color-patchbay-panel: var(--panel-color);
+  --color-patchbay-gridline: var(--gridline-color);
+  --radius-patchbay: var(--control-radius);
+  --font-patchbay: var(--control-font);
+}
+
+@utility bg-pb-grid {
+  background:
+    linear-gradient(
+      90deg,
+      var(--pb-grid-line, rgba(244, 239, 225, 0.035)) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      180deg,
+      var(--pb-grid-line, rgba(244, 239, 225, 0.035)) 1px,
+      transparent 1px
+    ),
+    var(--pb-grid-bg, #181916);
+  background-size: var(--pb-grid-size, 26px) var(--pb-grid-size, 26px);
+}

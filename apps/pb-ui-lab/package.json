@@ -1,0 +1,20 @@
+{
+  "name": "@patchbay/lab",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 7010",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 7010",
+    "check-types": "tsc -b --noEmit",
+    "lint": "eslint .",
+    "test:browser": "vitest run --config vitest.config.ts"
+  },
+  "dependencies": {
+    "@patchbay/ui": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1"
+  }
+}

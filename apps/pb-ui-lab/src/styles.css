@@ -1,0 +1,157 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 320px;
+  margin: 0;
+  background: #1f201d;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+h1,
+p,
+figure {
+  margin: 0;
+}
+
+.lab-shell {
+  width: min(1180px, 100%);
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 32px;
+  color: var(--text-color);
+  font-family: var(--control-font);
+}
+
+.lab-header {
+  display: grid;
+  gap: 8px;
+  margin: 0 0 28px;
+  border-bottom: 1px solid var(--gridline-color);
+  padding-bottom: 18px;
+}
+
+.lab-kicker {
+  color: var(--focus-border);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+h1 {
+  font-size: 30px;
+  line-height: 1.1;
+}
+
+.lab-token-rail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.lab-token-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-block-size: 24px;
+  padding: 3px 7px;
+  color: var(--muted-text-color);
+  background: var(--control-bg);
+  border: 1px solid var(--control-border);
+  border-radius: var(--control-radius);
+  font-family:
+    "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 11px;
+  line-height: 1;
+}
+
+.lab-token-swatch,
+.lab-token-radius {
+  display: inline-block;
+  inline-size: 13px;
+  block-size: 13px;
+  border: 1px solid var(--control-border);
+}
+
+.lab-token-swatch {
+  background: var(--lab-token-color);
+}
+
+.lab-token-radius {
+  background: var(--panel-color);
+  border-radius: var(--control-radius);
+}
+
+.comparison-list {
+  display: grid;
+  gap: 22px;
+}
+
+.comparison-section {
+  display: grid;
+  grid-template-columns: 150px minmax(280px, 1fr);
+  gap: 18px;
+  align-items: stretch;
+  border-bottom: 1px solid var(--gridline-color);
+  padding-bottom: 22px;
+}
+
+.component-copy {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  padding-top: 8px;
+}
+
+.component-name {
+  color: var(--text-color);
+  font-family:
+    "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 13px;
+}
+
+.component-status {
+  width: fit-content;
+  padding: 3px 7px;
+  color: var(--slider-color);
+  background: var(--modulation-color);
+  border-radius: var(--control-radius);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.component-demo-panel {
+  min-block-size: 190px;
+  background: var(--panel-color);
+  border: 1px solid var(--control-border);
+  border-radius: calc(var(--control-radius) + 2px);
+}
+
+.component-demo-panel {
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+@media (max-width: 960px) {
+  .lab-shell {
+    padding: 20px;
+  }
+
+  .comparison-section {
+    grid-template-columns: 1fr;
+  }
+
+  .component-copy {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+  }
+}

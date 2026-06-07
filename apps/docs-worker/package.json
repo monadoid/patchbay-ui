@@ -1,0 +1,32 @@
+{
+  "name": "@patchbay/docs-worker",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "packageManager": "pnpm@10.25.0",
+  "scripts": {
+    "build": "vite build",
+    "check-types": "svelte-check --tsconfig ./tsconfig.json",
+    "dev": "vite build && wrangler dev --host 127.0.0.1 --port 7011",
+    "dev:preview": "vite build && wrangler dev --host 127.0.0.1 --port 7014",
+    "preview": "vite preview --host 127.0.0.1 --port 7014",
+    "start": "vite build && wrangler dev --host 127.0.0.1 --port 7011"
+  },
+  "dependencies": {
+    "@patchbay/svelte": "workspace:*",
+    "@patchbay/ui": "workspace:*",
+    "@sveltejs/vite-plugin-svelte": "^7.1.2",
+    "@tailwindcss/vite": "^4.3.0",
+    "lucide-svelte": "^1.0.1",
+    "shiki": "^4.2.0",
+    "svelte": "^5.56.2",
+    "tailwindcss": "^4.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "svelte-check": "^4.6.0",
+    "typescript": "5.9.3",
+    "vite": "^8.0.16",
+    "wrangler": "^4.98.0"
+  }
+}

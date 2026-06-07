@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "allowJs": false,
+    "checkJs": false,
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": ["svelte"]
+  },
+  "include": ["src/**/*.ts", "src/**/*.svelte", "svelte.config.js"]
+}
