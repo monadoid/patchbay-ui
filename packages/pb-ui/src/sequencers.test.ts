@@ -79,6 +79,35 @@ describe("grid headless state helpers", () => {
       }),
     );
   });
+
+  test("toggles and cycles the final cell in wider grids", () => {
+    const initial = createGridState({
+      cells: Array.from({ length: 24 }, () => ({
+        active: false,
+        y: 0.5,
+        color: "blue",
+      })),
+    });
+    const activated = toggleGridCell(initial, 24, 0.18);
+    const cycled = cycleGridDirection(activated.state, 24);
+
+    expect(activated.change).toEqual(
+      expect.objectContaining({ active: true, index: 24, type: "cell" }),
+    );
+    expect(activated.state.cells).toHaveLength(24);
+    expect(activated.state.cells[23]).toEqual({
+      active: true,
+      color: "blue",
+      y: 0.2,
+    });
+    expect(cycled.change).toEqual(
+      expect.objectContaining({
+        direction: "left",
+        index: 24,
+        type: "direction",
+      }),
+    );
+  });
 });
 
 describe("step headless state helpers", () => {

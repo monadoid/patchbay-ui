@@ -58,6 +58,22 @@ describe("pb-ui public API schemas", () => {
     ).toThrow();
   });
 
+  test("grid accepts wider layouts and normalizes missing directions", () => {
+    const grid = gridPropsSchema.parse({
+      cells: Array.from({ length: 24 }, (_, index) => ({
+        active: index % 3 === 0,
+        y: 0.5,
+        color: "blue",
+      })),
+    });
+
+    expect(grid.cells).toHaveLength(24);
+    expect(grid.directions).toHaveLength(24);
+    expect(grid.directions.every((direction) => direction === "right")).toBe(
+      true,
+    );
+  });
+
   test("step loop parser enforces ordered loop ranges", () => {
     expect(stepSequencerPropsSchema.parse({}).loop).toEqual({ start: 1, end: 16 });
     expect(

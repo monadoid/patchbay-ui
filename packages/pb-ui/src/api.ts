@@ -215,25 +215,40 @@ export const gridCellSchema = z
   })
   .strict();
 
+const defaultGridColumnCount = 16;
+
+const defaultGridCell = () => ({
+  active: false,
+  y: 0.5,
+  color: "blue" as const,
+});
+
 export const gridPropsSchema = z
   .object({
-    cells: z
-      .array(gridCellSchema)
-      .length(16)
-      .default(() =>
-        Array.from({ length: 16 }, () => ({
-          active: false,
-          y: 0.5,
-          color: "blue" as const,
-        })),
-      ),
-    directions: z
-      .array(gridDirectionSchema)
-      .length(16)
-      .default(() => Array.from({ length: 16 }, () => "right" as const)),
+    cells: z.array(gridCellSchema).min(1).optional(),
+    directions: z.array(gridDirectionSchema).min(1).optional(),
     measureSize: integer.pipe(z.number().positive()).default(4),
   })
-  .strict();
+  .strict()
+  .transform((props) => {
+    const columnCount = Math.max(
+      props.cells?.length ?? 0,
+      props.directions?.length ?? 0,
+      defaultGridColumnCount,
+    );
+
+    return {
+      cells: Array.from(
+        { length: columnCount },
+        (_, index) => props.cells?.[index] ?? defaultGridCell(),
+      ),
+      directions: Array.from(
+        { length: columnCount },
+        (_, index) => props.directions?.[index] ?? "right",
+      ),
+      measureSize: props.measureSize,
+    };
+  });
 
 export const stepNoteSchema = z
   .object({
@@ -403,19 +418,19 @@ export const gridChangeDetailSchema = z.discriminatedUnion("type", [
   z
     .object({
       active: booleanish,
-      cells: z.array(gridCellSchema).length(16),
-      directions: z.array(gridDirectionSchema).length(16),
-      index: integer.pipe(z.number().min(1).max(16)),
+      cells: z.array(gridCellSchema).min(1),
+      directions: z.array(gridDirectionSchema).min(1),
+      index: integer.pipe(z.number().min(1)),
       type: z.literal("cell"),
       y: normalizedLevel,
     })
     .strict(),
   z
     .object({
-      cells: z.array(gridCellSchema).length(16),
+      cells: z.array(gridCellSchema).min(1),
       direction: gridDirectionSchema,
-      directions: z.array(gridDirectionSchema).length(16),
-      index: integer.pipe(z.number().min(1).max(16)),
+      directions: z.array(gridDirectionSchema).min(1),
+      index: integer.pipe(z.number().min(1)),
       type: z.literal("direction"),
     })
     .strict(),

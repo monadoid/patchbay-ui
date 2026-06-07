@@ -110,7 +110,7 @@ export function toggleGridCell(
   y: number,
 ): { change: GridCellChange; state: GridState } {
   const state = createGridState(stateInput);
-  const cellIndex = clampInteger(index, 1, gridColumnCount) - 1;
+  const cellIndex = clampInteger(index, 1, state.cells.length) - 1;
   const current = state.cells[cellIndex] ?? defaultGridCell();
   const nextY = quantizeGridY(y);
   const shouldDeactivate =
@@ -141,7 +141,7 @@ export function cycleGridDirection(
   index: number,
 ): { change: GridDirectionChange; state: GridState } {
   const state = createGridState(stateInput);
-  const directionIndex = clampInteger(index, 1, gridColumnCount) - 1;
+  const directionIndex = clampInteger(index, 1, state.directions.length) - 1;
   const current = normalizeDirection(state.directions[directionIndex]);
   const nextDirection =
     directionCycle[

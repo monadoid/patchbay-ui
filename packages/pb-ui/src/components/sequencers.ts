@@ -98,6 +98,7 @@ class GridElement extends HTMLElement {
   }
 
   private render(): void {
+    this.style.setProperty("--grid-columns", String(this.state.cells.length));
     this.replaceChildren();
 
     this.state.cells.forEach((cell, index) => {

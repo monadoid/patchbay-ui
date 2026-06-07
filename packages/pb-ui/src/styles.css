@@ -637,7 +637,7 @@
 .grid {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(16, 1fr);
+  grid-template-columns: repeat(var(--grid-columns, 16), 1fr);
   grid-template-rows: 74px 14px;
   gap: 3px 0;
   inline-size: 172px;
@@ -666,7 +666,7 @@
     repeating-linear-gradient(
       to right,
       rgba(10, 10, 10, 0.95) 0 1px,
-      transparent 1px calc(100% / 16)
+      transparent 1px calc(100% / var(--grid-columns, 16))
     ),
     repeating-linear-gradient(
       to bottom,
