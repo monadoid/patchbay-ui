@@ -12,5 +12,11 @@
   "observability": {
     "enabled": true
   },
+  "routes": [
+    {
+      "pattern": "ui.patchbay.tools",
+      "custom_domain": true
+    }
+  ],
   "upload_source_maps": true
 }
