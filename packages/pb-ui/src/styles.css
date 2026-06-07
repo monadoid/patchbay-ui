@@ -1218,6 +1218,20 @@
   border-inline-end: 0;
 }
 
+.gain.gain--flush::before,
+.gain.gain--flush input {
+  inset-block-end: 0;
+}
+
+.gain.gain--flush .gain__signal {
+  inset-block-end: 0;
+  block-size: calc(100% * var(--gain-signal, 0));
+}
+
+.gain.gain--flush .gain__thumb {
+  inset-block-end: calc((100% - 8px) * var(--gain-value, 0.75));
+}
+
 .gain__readout {
   position: absolute;
   inset-inline: 0;

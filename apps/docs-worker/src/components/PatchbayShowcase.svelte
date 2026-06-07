@@ -412,7 +412,7 @@
               thumbSide="left"
               disabled={!enabled}
               onValueDbChange={(gainDb) => updateScene({ gainDb })}
-              class="![block-size:88px] ![inline-size:30px] [&_.gain\_\_readout]:!hidden"
+              class="gain--flush ![block-size:88px] ![inline-size:30px] [&_.gain\_\_readout]:!hidden"
             />
             <Scope
               samples={outputSamples}
