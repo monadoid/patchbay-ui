@@ -509,6 +509,21 @@ export type SafeParseResult<T> =
   | { success: true; data: T; error?: never }
   | { success: false; data?: never; error: z.ZodError };
 
+export function findEnabledMenuItemIndex(
+  items: readonly Pick<MenuItem, "disabled">[],
+  startIndex: number,
+  direction: 1 | -1,
+  fallbackIndex: number,
+): number {
+  for (let offset = 0; offset < items.length; offset += 1) {
+    const index =
+      (startIndex + offset * direction + items.length) % items.length;
+    if (!items[index]?.disabled) return index;
+  }
+
+  return fallbackIndex;
+}
+
 export function parseSliderProps(input: unknown): SliderProps {
   return sliderPropsSchema.parse(input);
 }

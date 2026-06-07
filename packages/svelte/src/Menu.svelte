@@ -1,5 +1,9 @@
 <script lang="ts">
-  import { parseComponentProps, type MenuItem } from "@patchbayhq/ui";
+  import {
+    findEnabledMenuItemIndex,
+    parseComponentProps,
+    type MenuItem,
+  } from "@patchbayhq/ui";
 
   export let value = "classic";
   export let items: MenuItem[] = [
@@ -21,17 +25,6 @@
   );
   $: selected = props.items[selectedIndex] ?? props.items[0];
 
-  function firstEnabledIndex(startIndex: number, direction: 1 | -1) {
-    for (let offset = 0; offset < props.items.length; offset += 1) {
-      const index =
-        (startIndex + offset * direction + props.items.length) %
-        props.items.length;
-      if (!props.items[index]?.disabled) return index;
-    }
-
-    return selectedIndex;
-  }
-
   function commit(index: number) {
     const item = props.items[index];
     if (!item || item.disabled) return;
@@ -51,7 +44,12 @@
     if (event.key === "ArrowDown" || event.key === "ArrowUp") {
       event.preventDefault();
       const direction = event.key === "ArrowDown" ? 1 : -1;
-      activeIndex = firstEnabledIndex(activeIndex + direction, direction);
+      activeIndex = findEnabledMenuItemIndex(
+        props.items,
+        activeIndex + direction,
+        direction,
+        selectedIndex,
+      );
       open = true;
       return;
     }

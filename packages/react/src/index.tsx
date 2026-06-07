@@ -1,5 +1,6 @@
 import {
   defineElements,
+  findEnabledMenuItemIndex,
   initUi,
   parseComponentProps,
 } from "@patchbayhq/ui";
@@ -386,16 +387,6 @@ export function Menu({
   const [activeIndex, setActiveIndex] = useState(selectedIndex);
   const selected = props.items[selectedIndex] ?? props.items[0];
 
-  function firstEnabledIndex(startIndex: number, direction: 1 | -1) {
-    for (let offset = 0; offset < props.items.length; offset += 1) {
-      const index =
-        (startIndex + offset * direction + props.items.length) %
-        props.items.length;
-      if (!props.items[index]?.disabled) return index;
-    }
-    return selectedIndex;
-  }
-
   function commit(index: number) {
     const item = props.items[index];
     if (!item || item.disabled) return;
@@ -431,9 +422,11 @@ export function Menu({
           if (event.key === "ArrowDown" || event.key === "ArrowUp") {
             event.preventDefault();
             const direction = event.key === "ArrowDown" ? 1 : -1;
-            const nextIndex = firstEnabledIndex(
+            const nextIndex = findEnabledMenuItemIndex(
+              props.items,
               activeIndex + direction,
               direction,
+              selectedIndex,
             );
             setActiveIndex(nextIndex);
             setOpen(true);

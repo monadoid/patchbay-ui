@@ -81,6 +81,7 @@ class SliderController {
   private readonly thumb: HTMLElement;
   private readonly modulation: HTMLElement;
   private readonly valueText: HTMLElement | null;
+  private activePointerId: number | null = null;
   private dragging = false;
 
   constructor(
@@ -201,14 +202,15 @@ class SliderController {
 
     event.preventDefault();
     this.dragging = true;
+    this.activePointerId = event.pointerId;
     this.root.dataset.dragging = "true";
     this.input.focus({ preventScroll: true });
-    this.root.setPointerCapture(event.pointerId);
+    safelySetPointerCapture(this.root, event.pointerId);
     this.applyPointer(event);
   }
 
   private handlePointerMove(event: PointerEvent): void {
-    if (!this.dragging) {
+    if (!this.dragging || event.pointerId !== this.activePointerId) {
       return;
     }
 
@@ -217,17 +219,15 @@ class SliderController {
   }
 
   private handlePointerUp(event: PointerEvent): void {
-    if (!this.dragging) {
+    if (!this.dragging || event.pointerId !== this.activePointerId) {
       return;
     }
 
     event.preventDefault();
     this.dragging = false;
+    this.activePointerId = null;
     delete this.root.dataset.dragging;
-
-    if (this.root.hasPointerCapture(event.pointerId)) {
-      this.root.releasePointerCapture(event.pointerId);
-    }
+    safelyReleasePointerCapture(this.root, event.pointerId);
 
     this.input.dispatchEvent(new Event("change", { bubbles: true }));
   }
@@ -255,7 +255,11 @@ class SliderController {
     const min = Number(this.input.min || 0);
     const max = Number(this.input.max || 100);
     const range = max - min || 1;
-    const nextValue = this.snapToStep(min + range * ratio);
+    const nextValue = clamp(
+      this.snapToStep(min + range * ratio),
+      Math.min(min, max),
+      Math.max(min, max),
+    );
     const previousValue = this.input.value;
 
     setInputValue(this.input, this.formatInputValue(nextValue));
@@ -415,7 +419,13 @@ class DialController {
   private setValue(value: number): void {
     const min = Number(this.input.min || 0);
     const max = Number(this.input.max || 100);
-    const nextValue = this.snapToStep(Math.min(max, Math.max(min, value)));
+    const lower = Math.min(min, max);
+    const upper = Math.max(min, max);
+    const nextValue = clamp(
+      this.snapToStep(clamp(value, lower, upper)),
+      lower,
+      upper,
+    );
     const previousValue = this.input.value;
 
     setInputValue(this.input, this.formatInputValue(nextValue));
@@ -596,6 +606,10 @@ function escapeHtml(value: string): string {
     }
     return "&#39;";
   });
+}
+
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(max, Math.max(min, value));
 }
 
 function reportComponentError(

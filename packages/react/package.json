@@ -1,6 +1,6 @@
 {
   "name": "@patchbayhq/react",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "React wrappers for patchbay UI audio controls.",
   "license": "MIT",
   "type": "module",
@@ -41,11 +41,11 @@
     "./package.json": "./package.json"
   },
   "scripts": {
-    "build": "rm -rf dist && tsc -p tsconfig.build.json && cp src/styles.css src/tailwind.css dist/",
+    "build": "rm -rf dist .cache/tsbuildinfo.build.json && tsc -p tsconfig.build.json && cp src/styles.css src/tailwind.css dist/",
     "check-types": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@patchbayhq/ui": "^0.1.0"
+    "@patchbayhq/ui": "^0.1.1"
   },
   "peerDependencies": {
     "react": "^19.0.0",

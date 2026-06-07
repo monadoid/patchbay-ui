@@ -1,6 +1,6 @@
 {
   "name": "@patchbayhq/svelte",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Svelte wrappers for patchbay UI audio controls.",
   "license": "MIT",
   "type": "module",
@@ -45,7 +45,7 @@
     "check-types": "svelte-check --tsconfig tsconfig.json"
   },
   "dependencies": {
-    "@patchbayhq/ui": "^0.1.0"
+    "@patchbayhq/ui": "^0.1.1"
   },
   "peerDependencies": {
     "svelte": "^5.0.0"

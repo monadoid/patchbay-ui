@@ -3,9 +3,11 @@
   --color-patchbay-active: var(--control-active-bg);
   --color-patchbay-border: var(--control-border);
   --color-patchbay-focus: var(--focus-border);
-  --color-slider: var(--slider-color);
+  --color-patchbay-slider: var(--slider-color);
   --color-patchbay-modulation: var(--modulation-color);
   --color-patchbay-indicator: var(--indicator-color);
+  --color-patchbay-indicator-active: var(--indicator-active-color);
+  --color-patchbay-indicator-border: var(--indicator-border-color);
   --color-patchbay-text: var(--text-color);
   --color-patchbay-muted: var(--muted-text-color);
   --color-patchbay-panel: var(--panel-color);

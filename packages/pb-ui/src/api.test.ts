@@ -2,6 +2,7 @@ import { describe, expect, test } from "vitest";
 import {
   gridPropsSchema,
   createComponentErrorDetail,
+  findEnabledMenuItemIndex,
   formatZodIssues,
   sliderPropsSchema,
   stepSequencerPropsSchema,
@@ -103,6 +104,25 @@ describe("pb-ui public API schemas", () => {
     expect(parseComponentProps("gain", { thumbSide: "left" }).thumbSide).toBe("left");
     expect(parseComponentProps("dial", {}).dragAxis).toBe("vertical");
     expect(parseComponentProps("dial", { dragAxis: "horizontal" }).dragAxis).toBe("horizontal");
+  });
+
+  test("menu helper finds enabled options with wraparound and fallback", () => {
+    const items = [
+      { disabled: true },
+      { disabled: false },
+      { disabled: true },
+    ];
+
+    expect(findEnabledMenuItemIndex(items, 2, 1, 0)).toBe(1);
+    expect(findEnabledMenuItemIndex(items, 0, -1, 0)).toBe(1);
+    expect(
+      findEnabledMenuItemIndex(
+        items.map(() => ({ disabled: true })),
+        1,
+        1,
+        2,
+      ),
+    ).toBe(2);
   });
 
   test("safe parser returns structured failures without throwing", () => {

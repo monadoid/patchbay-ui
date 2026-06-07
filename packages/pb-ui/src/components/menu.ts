@@ -1,3 +1,5 @@
+import { findEnabledMenuItemIndex } from "../api";
+
 type MenuRoot = HTMLElement & {
   __menuController?: MenuController;
 };
@@ -124,25 +126,15 @@ class MenuController {
     this.setOpen(!this.open);
   }
 
-  private firstEnabledIndex(startIndex: number, direction: 1 | -1): number {
-    const options = this.options;
-
-    for (let offset = 0; offset < options.length; offset += 1) {
-      const index =
-        (startIndex + offset * direction + options.length) % options.length;
-      if (!options[index]?.disabled) return index;
-    }
-
-    return this.activeIndex;
-  }
-
   private handleKeydown(event: KeyboardEvent): void {
     if (event.key === "ArrowDown" || event.key === "ArrowUp") {
       event.preventDefault();
       const direction = event.key === "ArrowDown" ? 1 : -1;
-      this.activeIndex = this.firstEnabledIndex(
+      this.activeIndex = findEnabledMenuItemIndex(
+        this.options,
         this.activeIndex + direction,
         direction,
+        this.activeIndex,
       );
       this.setOpen(true);
       return;
