@@ -11,7 +11,7 @@
   export { className as class };
 
   $: props = parseComponentProps("scope", { frozen, mode, samples });
-  $: if (canvas) draw();
+  $: if (canvas && props) draw();
 
   function draw() {
     const context = canvas.getContext("2d");

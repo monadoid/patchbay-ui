@@ -5,7 +5,7 @@
     type MacroRackMacro,
   } from "./composites";
 
-  export let columns: 2 | 4 | 8 = 4;
+  export let columns: 2 | 3 | 4 | 8 = 4;
   export let disabled = false;
   export let label = "Macro rack";
   export let macros: MacroRackMacro[] = defaultMacroRackMacros;
@@ -35,6 +35,7 @@
     <Dial
       class="macro-rack__control"
       disabled={disabled || macro.disabled}
+      dragAxis={macro.dragAxis}
       label={macro.label}
       max={macro.max}
       min={macro.min}

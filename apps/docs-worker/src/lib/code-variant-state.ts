@@ -2,8 +2,8 @@ import { writable } from "svelte/store";
 
 import { codeVariantIds, type CodeVariantId } from "./code-variants";
 
-const storageKey = "patchbay-ui-docs-code-variant";
-const defaultVariant: CodeVariantId = "js";
+const storageKey = "patchbay-ui-docs-code-variant-v2";
+const defaultVariant: CodeVariantId = "svelte";
 
 function isCodeVariantId(value: unknown): value is CodeVariantId {
   return (

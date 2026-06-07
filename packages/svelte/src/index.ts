@@ -42,6 +42,7 @@ export type {
   ButtonProps,
   ControlAppearance,
   ColorSwatchesProps,
+  DialDragAxis,
   LabelProps,
   DialProps,
   DropProps,

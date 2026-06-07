@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { onMount } from "svelte";
+  import { Store } from "lucide-svelte";
   import CodeBlock from "./components/CodeBlock.svelte";
   import ComponentPreview from "./components/ComponentPreview.svelte";
   import CopyButton from "./components/CopyButton.svelte";
@@ -8,12 +10,30 @@
     getStartedVariants,
     pageMarkdown,
   } from "./lib/docs-content";
+
+  const productionMarketplaceHref = "https://patchbay.tools/";
+
+  let marketplaceHref = productionMarketplaceHref;
+
+  onMount(() => {
+    const localHosts = new Set(["localhost", "127.0.0.1", "::1"]);
+    marketplaceHref = localHosts.has(window.location.hostname)
+      ? "http://localhost:7012/"
+      : productionMarketplaceHref;
+  });
 </script>
 
 <main
   class="mx-auto w-[calc(100vw-32px)] max-w-[1180px] pt-8 pb-14 max-[860px]:w-[calc(100vw-24px)] max-[860px]:max-w-[720px] max-[860px]:pt-3.5"
 >
-  <div class="mb-3 flex justify-end max-[520px]:w-full max-[520px]:justify-center">
+  <div class="mb-3 flex justify-end gap-2 max-[520px]:w-full max-[520px]:flex-col">
+    <a
+      class="inline-flex min-h-8 items-center justify-center gap-[7px] whitespace-nowrap rounded-patchbay border border-patchbay-border bg-patchbay-bg px-3 text-patchbay-text no-underline shadow-[inset_0_1px_0_rgba(244,239,225,0.08)] hover:border-patchbay-focus focus-visible:border-patchbay-focus focus-visible:outline-none max-[520px]:w-full [&_svg]:shrink-0"
+      href={marketplaceHref}
+    >
+      <Store aria-hidden="true" size={14} strokeWidth={2} />
+      <span>Extension registry</span>
+    </a>
     <CopyButton
       className="max-[520px]:w-full"
       label="Copy page as Markdown"

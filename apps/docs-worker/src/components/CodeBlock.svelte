@@ -133,19 +133,23 @@
             aria-label="Code language"
           >
             {#each variants as variant, index}
+              {@const isActive = variant.id === $activeCodeVariant}
               <button
-                aria-pressed={variant.id === $activeCodeVariant}
+                aria-pressed={isActive}
                 class={[
                   "min-h-6 cursor-pointer border-0 bg-transparent px-[9px] text-[11px] text-[var(--docs-muted)] hover:text-[var(--text-color)] focus-visible:text-[var(--text-color)] focus-visible:outline-none",
                   index === variants.length - 1
                     ? "border-r-0"
                     : "border-r border-[rgba(244,239,225,0.1)]",
-                  variant.id === $activeCodeVariant
-                    ? "bg-[var(--modulation-color)] text-[#11120f] hover:text-[#11120f] focus-visible:text-[#11120f]"
+                  isActive
+                    ? "hover:text-[#11120f] focus-visible:text-[#11120f]"
                     : "",
                 ]
                   .filter(Boolean)
                   .join(" ")}
+                style={isActive
+                  ? "background: var(--modulation-color); color: #11120f;"
+                  : undefined}
                 on:click={() => setCodeVariant(variant.id)}
                 type="button"
               >

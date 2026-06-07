@@ -53,6 +53,7 @@ export const stepColorSchema = z.enum(["orange", "blue"]);
 export const lineOrientationSchema = z.enum(["horizontal", "vertical"]);
 export const numberFormatSchema = z.enum(["integer", "float"]);
 export const dialModeSchema = z.enum(["unipolar", "bipolar"]);
+export const dialDragAxisSchema = z.enum(["vertical", "horizontal"]);
 export const controlAppearanceSchema = z.enum([
   "default",
   "primary",
@@ -89,6 +90,7 @@ export const dialPropsSchema = z
       .union([numeric.pipe(z.number().positive()), z.literal("any")])
       .default(0.01),
     mode: dialModeSchema.default("unipolar"),
+    dragAxis: dialDragAxisSchema.default("vertical"),
     disabled: booleanish.default(false),
   })
   .strict();
@@ -324,6 +326,7 @@ export const gainPropsSchema = z
     maxDb: numeric.default(6),
     stepDb: numeric.pipe(z.number().positive()).default(0.1),
     level: normalizedLevel.default(0),
+    thumbSide: z.enum(["left", "right"]).default("right"),
     disabled: booleanish.default(false),
   })
   .strict();
@@ -373,6 +376,7 @@ export type StepColor = z.infer<typeof stepColorSchema>;
 export type LineOrientation = z.infer<typeof lineOrientationSchema>;
 export type NumberFormat = z.infer<typeof numberFormatSchema>;
 export type DialMode = z.infer<typeof dialModeSchema>;
+export type DialDragAxis = z.infer<typeof dialDragAxisSchema>;
 export type ControlAppearance = z.infer<typeof controlAppearanceSchema>;
 
 export type SliderProps = z.infer<typeof sliderPropsSchema>;

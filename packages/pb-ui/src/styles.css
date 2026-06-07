@@ -190,6 +190,12 @@
   block-size: var(--dial-size);
   background: transparent;
   border-radius: 50%;
+  cursor: ns-resize;
+  touch-action: none;
+}
+
+.dial[data-drag-axis="horizontal"] {
+  cursor: ew-resize;
 }
 
 .dial::before {
@@ -238,6 +244,7 @@
   margin: 0;
   cursor: pointer;
   opacity: 0;
+  pointer-events: none;
 }
 
 .button,
@@ -1156,6 +1163,11 @@
     inset 0 1px #2b2b2b;
 }
 
+.gain[data-thumb-side="left"]::before {
+  inset-inline-start: auto;
+  inset-inline-end: 0;
+}
+
 .gain input {
   position: absolute;
   inset-block-start: 0;
@@ -1183,6 +1195,11 @@
   pointer-events: none;
 }
 
+.gain[data-thumb-side="left"] .gain__signal {
+  inset-inline-start: auto;
+  inset-inline-end: 3px;
+}
+
 .gain__thumb {
   position: absolute;
   inset-block-end: calc(16px + (100% - 24px) * var(--gain-value, 0.75));
@@ -1192,6 +1209,13 @@
   border-block: 4px solid transparent;
   border-inline-end: 7px solid #a5a5a5;
   pointer-events: none;
+}
+
+.gain[data-thumb-side="left"] .gain__thumb {
+  inset-inline-start: auto;
+  inset-inline-end: 17px;
+  border-inline-start: 7px solid #a5a5a5;
+  border-inline-end: 0;
 }
 
 .gain__readout {
@@ -1384,10 +1408,11 @@
 
 .macro-rack {
   --macro-rack-columns: 4;
+  container-type: inline-size;
   display: grid;
-  grid-template-columns: repeat(var(--macro-rack-columns), minmax(48px, 1fr));
+  grid-template-columns: repeat(var(--macro-rack-columns), minmax(0, 1fr));
   align-items: end;
-  gap: 12px 10px;
+  gap: 12px clamp(4px, 3cqi, 10px);
   min-inline-size: 0;
   padding: 12px;
   background: rgba(16, 16, 16, 0.42);
@@ -1397,8 +1422,16 @@
 }
 
 .macro-rack__control {
+  inline-size: 100%;
   justify-items: center;
   min-inline-size: 0;
+}
+
+.macro-rack__control .field__label {
+  max-inline-size: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .clip-step-launcher {

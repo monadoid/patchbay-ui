@@ -1030,7 +1030,6 @@ export function EnvelopeEditor() {
     <rect data-envelope-handle="attack" x="4" y="8" width="8" height="8" />
     <circle data-envelope-handle="decay" cx="24" cy="12" r="4" />
     <circle data-envelope-handle="sustain" cx="58" cy="12" r="4" />
-    <circle data-envelope-handle="release" cx="178" cy="80" r="4" />
     <rect data-envelope-handle="end" x="190" y="84" width="8" height="8" />
   </svg>
 </div>

@@ -99,6 +99,10 @@ describe("pb-ui public API schemas", () => {
     expect(slider.modulation).toBe(0.5);
     expect(gain.valueDb).toBe(-6);
     expect(gain.level).toBe(0.25);
+    expect(gain.thumbSide).toBe("right");
+    expect(parseComponentProps("gain", { thumbSide: "left" }).thumbSide).toBe("left");
+    expect(parseComponentProps("dial", {}).dragAxis).toBe("vertical");
+    expect(parseComponentProps("dial", { dragAxis: "horizontal" }).dragAxis).toBe("horizontal");
   });
 
   test("safe parser returns structured failures without throwing", () => {

@@ -1,5 +1,5 @@
-import "./app.css";
 import "@patchbay/ui/styles.css";
+import "./app.css";
 import "./docs-theme.css";
 
 import { mount } from "svelte";

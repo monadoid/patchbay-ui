@@ -9,6 +9,7 @@ import type {
 export type StatusTone = "idle" | "active" | "warning" | "danger";
 
 export type MacroRackMacro = {
+  dragAxis?: DialProps["dragAxis"];
   disabled?: boolean;
   id: string;
   label: string;

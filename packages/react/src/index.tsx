@@ -11,7 +11,7 @@ import {
   useState,
   type CSSProperties,
   type ChangeEvent,
-  type PointerEvent,
+  type PointerEvent as ReactPointerEvent,
   type DetailedHTMLProps,
   type HTMLAttributes,
   type ReactNode,
@@ -32,6 +32,7 @@ export type ControlAppearance = Patchbay.ControlAppearance;
 
 export type SliderControlProps = Patchbay.SliderProps;
 export type DialControlProps = Patchbay.DialProps;
+export type DialDragAxis = Patchbay.DialDragAxis;
 export type ToggleControlProps = Patchbay.ToggleProps;
 export type ButtonControlProps = Patchbay.ButtonProps;
 export type TextButtonControlProps = Patchbay.TextButtonProps;
@@ -162,6 +163,14 @@ export function Dial({
 }: DialProps) {
   const props = parseComponentProps("dial", inputProps);
   const fieldId = useId();
+  const ref = useControlInit<HTMLSpanElement>([
+    props.disabled,
+    props.dragAxis,
+    props.max,
+    props.min,
+    props.step,
+    props.value,
+  ]);
   const valueRatio = ratio(props.value, props.min, props.max);
 
   return (
@@ -170,6 +179,8 @@ export function Dial({
       <span
         className="dial"
         data-dial
+        data-drag-axis={props.dragAxis}
+        ref={ref}
         style={{ "--dial-value": valueRatio } as CssVars}
       >
         <input
@@ -747,15 +758,57 @@ export function Envelope({
     1,
   )} C${releaseX.toFixed(1)} ${sustainY.toFixed(1)} 172 75 194 88`;
 
-  function setSustain(event: PointerEvent<SVGCircleElement>) {
+  function setSustainFromClientY(clientY: number, svg: SVGSVGElement) {
     if (!onEnvelopeChange || props.disabled) return;
-    const rect = event.currentTarget.ownerSVGElement?.getBoundingClientRect();
-    if (!rect) return;
+    const rect = svg.getBoundingClientRect();
     const sustain = Math.max(
       0,
-      Math.min(1, 1 - (event.clientY - rect.top - 12) / 76),
+      Math.min(1, 1 - (clientY - rect.top - 12) / 76),
     );
+
     onEnvelopeChange({ ...props.envelope, sustain });
+  }
+
+  function beginSustainDrag(event: ReactPointerEvent<SVGCircleElement>) {
+    if (!onEnvelopeChange || props.disabled) return;
+    const svg = event.currentTarget.ownerSVGElement;
+    if (!svg) return;
+
+    event.preventDefault();
+    const pointerId = event.pointerId;
+    const target = event.currentTarget;
+
+    try {
+      target.setPointerCapture(pointerId);
+    } catch {
+      // Some browser/SVG combinations skip capture after a quick pointer cancel.
+    }
+
+    setSustainFromClientY(event.clientY, svg);
+
+    const handleMove = (moveEvent: globalThis.PointerEvent) => {
+      if (moveEvent.pointerId !== pointerId) return;
+
+      moveEvent.preventDefault();
+      setSustainFromClientY(moveEvent.clientY, svg);
+    };
+    const handleEnd = (endEvent: globalThis.PointerEvent) => {
+      if (endEvent.pointerId !== pointerId) return;
+
+      window.removeEventListener("pointermove", handleMove);
+      window.removeEventListener("pointerup", handleEnd);
+      window.removeEventListener("pointercancel", handleEnd);
+
+      try {
+        target.releasePointerCapture(pointerId);
+      } catch {
+        // Capture may already be released by the browser.
+      }
+    };
+
+    window.addEventListener("pointermove", handleMove);
+    window.addEventListener("pointerup", handleEnd);
+    window.addEventListener("pointercancel", handleEnd);
   }
 
   return (
@@ -783,17 +836,16 @@ export function Envelope({
           data-envelope-handle="decay"
           cx={decayX}
           cy={sustainY}
-          onPointerDown={setSustain}
+          onPointerDown={beginSustainDrag}
           r="4"
         />
         <circle
           data-envelope-handle="sustain"
           cx={releaseX}
           cy={sustainY}
-          onPointerDown={setSustain}
+          onPointerDown={beginSustainDrag}
           r="4"
         />
-        <circle data-envelope-handle="release" cx="178" cy="80" r="4" />
         <rect data-envelope-handle="end" height="8" width="8" x="190" y="84" />
       </svg>
     </div>
@@ -893,6 +945,7 @@ export function Gain({
     <label
       className={cx("gain", className)}
       data-gain
+      data-thumb-side={props.thumbSide}
       style={
         {
           "--gain-signal": props.level,
@@ -1063,6 +1116,7 @@ export function StatusIndicator({
 }
 
 export type MacroRackMacro = {
+  dragAxis?: Patchbay.DialProps["dragAxis"];
   disabled?: boolean;
   id: string;
   label: string;
@@ -1083,7 +1137,7 @@ export const defaultMacroRackMacros: MacroRackMacro[] = Array.from(
 );
 
 export type MacroRackProps = CommonProps & {
-  columns?: 2 | 4 | 8;
+  columns?: 2 | 3 | 4 | 8;
   disabled?: boolean;
   label?: string;
   macros?: readonly MacroRackMacro[];
@@ -1113,6 +1167,7 @@ export function MacroRack({
         <Dial
           className="macro-rack__control"
           disabled={disabled || macro.disabled}
+          dragAxis={macro.dragAxis}
           key={macro.id}
           label={macro.label}
           max={macro.max}

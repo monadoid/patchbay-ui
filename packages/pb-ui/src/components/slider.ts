@@ -11,11 +11,14 @@ import { initMenus } from "./menu";
 import { defineSequencerElements } from "./sequencers";
 
 type SliderRoot = HTMLElement & { __sliderController?: SliderController };
+type DialRoot = HTMLElement & { __dialController?: DialController };
 
 const controllerKey = "__sliderController";
+const dialControllerKey = "__dialController";
 
 export function initUi(root: ParentNode = document): void {
   initSliders(root);
+  initDials(root);
   initEnvelopeEditors(root);
   initMenus(root);
 }
@@ -29,7 +32,7 @@ export function defineElements(): void {
 }
 
 export function initSliders(root: ParentNode = document): void {
-  root.querySelectorAll<SliderRoot>("[data-slider]").forEach((element) => {
+  matchingElements<SliderRoot>(root, "[data-slider]").forEach((element) => {
     const input = element.querySelector<HTMLInputElement>(
       'input[type="range"]',
     );
@@ -47,6 +50,28 @@ export function initSliders(root: ParentNode = document): void {
       element[controllerKey] = new SliderController(element, input);
     }
     element[controllerKey]?.sync();
+  });
+}
+
+export function initDials(root: ParentNode = document): void {
+  matchingElements<DialRoot>(root, "[data-dial]").forEach((element) => {
+    const input = element.querySelector<HTMLInputElement>(
+      'input[type="range"]',
+    );
+    if (!input) {
+      reportComponentError(
+        element,
+        "dial",
+        "missing-control",
+        "data-dial requires an input[type=range]",
+      );
+      return;
+    }
+
+    if (!element[dialControllerKey]) {
+      element[dialControllerKey] = new DialController(element, input);
+    }
+    element[dialControllerKey]?.sync();
   });
 }
 
@@ -233,7 +258,7 @@ class SliderController {
     const nextValue = this.snapToStep(min + range * ratio);
     const previousValue = this.input.value;
 
-    this.input.value = this.formatInputValue(nextValue);
+    setInputValue(this.input, this.formatInputValue(nextValue));
     this.sync();
 
     if (this.input.value !== previousValue) {
@@ -255,6 +280,185 @@ class SliderController {
     }
 
     return min + Math.round((value - min) / step) * step;
+  }
+
+  private formatInputValue(value: number): string {
+    const decimals = this.decimals();
+    return decimals > 0 ? value.toFixed(decimals) : String(Math.round(value));
+  }
+}
+
+class DialController {
+  private activePointerId: number | null = null;
+  private dragStartValue = 0;
+  private dragStartX = 0;
+  private dragStartY = 0;
+  private dragging = false;
+
+  constructor(
+    private readonly root: DialRoot,
+    private readonly input: HTMLInputElement,
+  ) {
+    this.root.classList.add("dial");
+    this.root.dataset.dragAxis ||= "vertical";
+
+    this.root.addEventListener("pointerdown", (event) =>
+      this.handlePointerDown(event),
+    );
+    this.root.addEventListener("pointermove", (event) =>
+      this.handlePointerMove(event),
+    );
+    this.root.addEventListener("pointerup", (event) =>
+      this.handlePointerUp(event),
+    );
+    this.root.addEventListener("pointercancel", (event) =>
+      this.handlePointerUp(event),
+    );
+    this.root.addEventListener("wheel", (event) => this.handleWheel(event), {
+      passive: false,
+    });
+
+    this.input.addEventListener("input", () => this.sync());
+    this.input.addEventListener("change", () => this.sync());
+
+    this.sync();
+  }
+
+  sync(): void {
+    const min = Number(this.input.min || 0);
+    const max = Number(this.input.max || 100);
+    const value = Number(this.input.value || 0);
+    const range = max - min || 1;
+    const ratio = Math.min(1, Math.max(0, (value - min) / range));
+    const dragAxis = this.root.dataset.dragAxis === "horizontal"
+      ? "horizontal"
+      : "vertical";
+
+    this.root.style.setProperty("--dial-value", String(ratio));
+    this.root.dataset.dragAxis = dragAxis;
+  }
+
+  private handlePointerDown(event: PointerEvent): void {
+    if (event.button !== 0 || this.input.disabled) {
+      return;
+    }
+
+    event.preventDefault();
+    this.dragging = true;
+    this.activePointerId = event.pointerId;
+    this.dragStartX = event.clientX;
+    this.dragStartY = event.clientY;
+    this.dragStartValue = Number(this.input.value || 0);
+    this.root.dataset.dragging = "true";
+    this.input.focus({ preventScroll: true });
+    safelySetPointerCapture(this.root, event.pointerId);
+  }
+
+  private handlePointerMove(event: PointerEvent): void {
+    if (!this.dragging || event.pointerId !== this.activePointerId) {
+      return;
+    }
+
+    event.preventDefault();
+    const dragAxis = this.root.dataset.dragAxis === "horizontal"
+      ? "horizontal"
+      : "vertical";
+    const delta =
+      dragAxis === "horizontal"
+        ? event.clientX - this.dragStartX
+        : this.dragStartY - event.clientY;
+    const sensitivity = (event.shiftKey ? 1 / 5 : 1) / 200;
+
+    this.setValue(this.dragStartValue + delta * sensitivity * this.range());
+  }
+
+  private handlePointerUp(event: PointerEvent): void {
+    if (!this.dragging || event.pointerId !== this.activePointerId) {
+      return;
+    }
+
+    event.preventDefault();
+    this.dragging = false;
+    this.activePointerId = null;
+    delete this.root.dataset.dragging;
+    safelyReleasePointerCapture(this.root, event.pointerId);
+    this.input.dispatchEvent(new Event("change", { bubbles: true }));
+  }
+
+  private handleWheel(event: WheelEvent): void {
+    if (this.input.disabled) {
+      return;
+    }
+
+    const dragAxis = this.root.dataset.dragAxis === "horizontal"
+      ? "horizontal"
+      : "vertical";
+    const rawDelta = dragAxis === "horizontal"
+      ? event.deltaX || -event.deltaY
+      : -event.deltaY || event.deltaX;
+
+    if (rawDelta === 0) {
+      return;
+    }
+
+    event.preventDefault();
+    this.input.focus({ preventScroll: true });
+
+    const direction = rawDelta > 0 ? 1 : -1;
+    const step = this.stepValue() ?? this.range() / 100;
+    const fineScale = event.shiftKey ? 1 / 5 : 1;
+
+    this.setValue(Number(this.input.value || 0) + direction * step * fineScale);
+    this.input.dispatchEvent(new Event("change", { bubbles: true }));
+  }
+
+  private setValue(value: number): void {
+    const min = Number(this.input.min || 0);
+    const max = Number(this.input.max || 100);
+    const nextValue = this.snapToStep(Math.min(max, Math.max(min, value)));
+    const previousValue = this.input.value;
+
+    setInputValue(this.input, this.formatInputValue(nextValue));
+    this.sync();
+
+    if (this.input.value !== previousValue) {
+      this.input.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+  }
+
+  private range(): number {
+    const min = Number(this.input.min || 0);
+    const max = Number(this.input.max || 100);
+    return max - min || 1;
+  }
+
+  private stepValue(): number | undefined {
+    const stepAttr = this.input.step;
+    if (!stepAttr || stepAttr === "any") {
+      return undefined;
+    }
+
+    const step = Number(stepAttr);
+    return Number.isFinite(step) && step > 0 ? step : undefined;
+  }
+
+  private snapToStep(value: number): number {
+    const min = Number(this.input.min || 0);
+    const step = this.stepValue();
+
+    if (!step) {
+      return value;
+    }
+
+    return min + Math.round((value - min) / step) * step;
+  }
+
+  private decimals(): number {
+    const step = this.input.step;
+    if (!step || step === "any" || !step.includes(".")) {
+      return 0;
+    }
+    return step.split(".")[1]?.length ?? 0;
   }
 
   private formatInputValue(value: number): string {
@@ -351,6 +555,17 @@ class SliderElement extends HTMLElement {
   }
 }
 
+function matchingElements<ElementType extends Element>(
+  root: ParentNode,
+  selector: string,
+): ElementType[] {
+  const elements = Array.from(root.querySelectorAll<ElementType>(selector));
+  if (root instanceof Element && root.matches(selector)) {
+    elements.unshift(root as ElementType);
+  }
+  return elements;
+}
+
 function attributeValue(element: Element, name: string): string | undefined {
   return element.getAttribute(name) ?? undefined;
 }
@@ -410,4 +625,42 @@ function reportComponentError(
 function clearComponentError(element: HTMLElement): void {
   delete element.dataset.invalid;
   element.removeAttribute("aria-invalid");
+}
+
+function safelySetPointerCapture(
+  element: Element,
+  pointerId: number,
+): void {
+  try {
+    element.setPointerCapture?.(pointerId);
+  } catch {
+    // Test runners can synthesize pointer events without active capture.
+  }
+}
+
+function safelyReleasePointerCapture(
+  element: Element,
+  pointerId: number,
+): void {
+  try {
+    if (element.hasPointerCapture?.(pointerId)) {
+      element.releasePointerCapture?.(pointerId);
+    }
+  } catch {
+    // Matching the guarded setPointerCapture path above.
+  }
+}
+
+function setInputValue(input: HTMLInputElement, value: string): void {
+  const ownSetter = Object.getOwnPropertyDescriptor(input, "value")?.set;
+  const prototype = Object.getPrototypeOf(input) as HTMLInputElement;
+  const prototypeSetter = Object.getOwnPropertyDescriptor(prototype, "value")
+    ?.set;
+
+  if (prototypeSetter && ownSetter !== prototypeSetter) {
+    prototypeSetter.call(input, value);
+    return;
+  }
+
+  input.value = value;
 }

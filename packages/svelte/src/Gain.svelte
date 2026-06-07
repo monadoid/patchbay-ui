@@ -7,13 +7,22 @@
   export let maxDb = 6;
   export let stepDb = 0.1;
   export let level = 0;
+  export let thumbSide: "left" | "right" = "right";
   export let disabled = false;
   export let onValueDbChange: ((valueDb: number) => void) | undefined = undefined;
 
   let className = "";
   export { className as class };
 
-  $: props = parseComponentProps("gain", { disabled, level, maxDb, minDb, stepDb, valueDb });
+  $: props = parseComponentProps("gain", {
+    disabled,
+    level,
+    maxDb,
+    minDb,
+    stepDb,
+    thumbSide,
+    valueDb,
+  });
   $: gainRatio = ratio(props.valueDb, props.minDb, props.maxDb);
 
   function handleInput(event: Event) {
@@ -25,6 +34,7 @@
 <label
   class={["gain", className].filter(Boolean).join(" ")}
   data-gain
+  data-thumb-side={props.thumbSide}
   style={`--gain-value: ${gainRatio}; --gain-signal: ${props.level}`}
 >
   <input
