@@ -54,11 +54,17 @@
     <div
       class="flex min-h-[420px] flex-col justify-center gap-[26px] rounded-lg border border-[var(--docs-line-soft)] bg-[var(--docs-surface)] p-7 max-[860px]:min-h-0 max-[520px]:p-3.5"
     >
-      <h1 class="m-0 max-w-[8ch] text-[76px] leading-[0.94] font-bold text-[var(--text-color)] max-[860px]:text-[46px]">
-        patchbay ui
+      <h1
+        class="m-0 inline-grid w-fit max-w-full text-[76px] leading-[0.9] font-bold text-[var(--text-color)] max-[520px]:text-[52px]"
+      >
+        <span class="block whitespace-nowrap">patchbay</span>
+        <span
+          class="mt-0.5 block justify-self-end text-[0.54em] leading-[0.82] text-patchbay-focus"
+          >ui</span
+        >
       </h1>
       <p class="m-0 max-w-[34rem] text-[17px] leading-[1.55] text-[var(--docs-muted)]">
-        Native HTML controls for audio-extension UIs. Use them from vanilla
+        Native HTML controls for audio extensions. Use them in vanilla
         JavaScript, React, or Svelte.
       </p>
     </div>

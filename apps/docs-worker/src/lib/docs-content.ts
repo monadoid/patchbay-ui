@@ -1620,7 +1620,7 @@ export function pageMarkdownForVariant(variantId: CodeVariantId) {
 
   return `# patchbay ui
 
-Native HTML controls for audio-extension UIs. Use them from vanilla JavaScript, React, or Svelte.
+Native HTML controls for audio extensions. Use them in vanilla JavaScript, React, or Svelte.
 
 ## Get Started
 

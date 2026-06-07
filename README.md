@@ -1,6 +1,6 @@
 # patchbay ui
 
-Native HTML controls for audio-extension UIs. Use them from vanilla JavaScript, React, or Svelte.
+Native HTML controls for audio extensions. Use them in vanilla JavaScript, React, or Svelte.
 
 patchbay ui is HTML-first and framework-neutral at the core, with small React and Svelte wrappers over the same controls and CSS.
 

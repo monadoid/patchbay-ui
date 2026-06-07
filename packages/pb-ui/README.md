@@ -1,6 +1,6 @@
 # @patchbayhq/ui
 
-Native HTML controls and styles for audio-extension UIs.
+Native HTML controls and styles for audio extensions.
 
 ```bash
 pnpm add @patchbayhq/ui
