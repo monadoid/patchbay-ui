@@ -1,6 +1,6 @@
 {
   "name": "@patchbayhq/ui",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Native HTML controls and styles for audio-extension UIs.",
   "license": "MIT",
   "type": "module",

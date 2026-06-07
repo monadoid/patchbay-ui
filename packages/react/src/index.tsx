@@ -91,6 +91,65 @@ function ratio(value: number, min: number, max: number) {
   return Math.max(0, Math.min(1, (value - min) / range));
 }
 
+function clampSignal(value: number) {
+  return Math.max(-1, Math.min(1, value));
+}
+
+function drawScopeCanvas(
+  canvas: HTMLCanvasElement,
+  samples: readonly number[],
+  mode: Patchbay.ScopeProps["mode"],
+) {
+  const context = canvas.getContext("2d");
+  if (!context) return;
+
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  context.fillStyle = "#161616";
+  context.fillRect(0, 0, canvas.width, canvas.height);
+  context.strokeStyle = "rgba(255, 255, 255, 0.12)";
+  context.lineWidth = 1;
+
+  for (let x = 0; x < canvas.width; x += 23) {
+    context.beginPath();
+    context.moveTo(x, 0);
+    context.lineTo(x, canvas.height);
+    context.stroke();
+  }
+
+  for (let y = 0; y < canvas.height; y += 24) {
+    context.beginPath();
+    context.moveTo(0, y);
+    context.lineTo(canvas.width, y);
+    context.stroke();
+  }
+
+  const wave =
+    samples.length > 0 ? samples : Array.from({ length: canvas.width }, () => 0);
+  context.strokeStyle = "#9cd8ca";
+  context.lineWidth = 2;
+  context.beginPath();
+
+  if (mode === "lissajous") {
+    wave.forEach((sample, index) => {
+      const pairedSample = wave[(index + 1) % wave.length] ?? 0;
+      const x = canvas.width / 2 + clampSignal(sample) * (canvas.width * 0.38);
+      const y =
+        canvas.height / 2 -
+        clampSignal(pairedSample) * (canvas.height * 0.38);
+      index === 0 ? context.moveTo(x, y) : context.lineTo(x, y);
+    });
+  } else {
+    wave.forEach((sample, index) => {
+      const x = (index / Math.max(1, wave.length - 1)) * canvas.width;
+      const y =
+        canvas.height / 2 - clampSignal(sample) * (canvas.height * 0.38);
+      index === 0 ? context.moveTo(x, y) : context.lineTo(x, y);
+    });
+  }
+
+  context.stroke();
+}
+
 function useControlInit<T extends HTMLElement>(dependencies: readonly unknown[]) {
   const ref = useRef<T>(null);
 
@@ -854,49 +913,24 @@ export type ScopeProps = CommonProps & Partial<Patchbay.ScopeProps>;
 export function Scope({ className, ...inputProps }: ScopeProps) {
   const props = parseComponentProps("scope", inputProps);
   const ref = useRef<HTMLCanvasElement>(null);
+  const drawnRef = useRef(false);
 
   useEffect(() => {
     const canvas = ref.current;
-    const context = canvas?.getContext("2d");
-    if (!canvas || !context) return;
+    if (!canvas) return;
+    if (props.frozen && drawnRef.current) return;
 
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    context.fillStyle = "#161616";
-    context.fillRect(0, 0, canvas.width, canvas.height);
-    context.strokeStyle = "rgba(255, 255, 255, 0.12)";
-    context.lineWidth = 1;
-
-    for (let x = 0; x < canvas.width; x += 23) {
-      context.beginPath();
-      context.moveTo(x, 0);
-      context.lineTo(x, canvas.height);
-      context.stroke();
-    }
-
-    const samples =
-      props.samples.length > 0
-        ? props.samples
-        : Array.from({ length: canvas.width }, () => 0);
-    context.strokeStyle = "#9cd8ca";
-    context.lineWidth = 2;
-    context.beginPath();
-
-    samples.forEach((sample, index) => {
-      const x = (index / Math.max(1, samples.length - 1)) * canvas.width;
-      const y =
-        canvas.height / 2 -
-        Math.max(-1, Math.min(1, sample)) * (canvas.height * 0.38);
-      index === 0 ? context.moveTo(x, y) : context.lineTo(x, y);
-    });
-
-    context.stroke();
-  }, [props.samples]);
+    drawScopeCanvas(canvas, props.samples, props.mode);
+    drawnRef.current = true;
+  }, [props.frozen, props.mode, props.samples]);
 
   return (
     <canvas
       aria-label="Scope"
       className={cx("scope", className)}
+      data-frozen={props.frozen ? "true" : undefined}
       data-scope
+      data-scope-mode={props.mode}
       height={98}
       ref={ref}
       width={184}
@@ -914,13 +948,21 @@ export function Meter({ className, ...inputProps }: MeterProps) {
       aria-label="Signal meter"
       className={cx("meter", className)}
       data-meter
+      data-orientation={props.orientation}
     >
       <span
         aria-hidden="true"
         className="meter__bar"
         data-meter-bar
-        style={{ "--meter-value": props.level } as CssVars}
-      />
+        style={
+          {
+            "--meter-peak": props.peak,
+            "--meter-value": props.level,
+          } as CssVars
+        }
+      >
+        <span aria-hidden="true" className="meter__peak" />
+      </span>
     </div>
   );
 }

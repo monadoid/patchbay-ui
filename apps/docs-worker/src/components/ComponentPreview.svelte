@@ -2,14 +2,21 @@
   import CodeBlock from "./CodeBlock.svelte";
   import CopyButton from "./CopyButton.svelte";
   import PatchbayExample from "./PatchbayExample.svelte";
-  import type { CodeVariantSource } from "../lib/code-variants";
+  import { activeCodeVariant } from "../lib/code-variant-state";
+  import type {
+    CodeVariantId,
+    CodeVariantSource,
+  } from "../lib/code-variants";
 
   export let code: string;
   export let codeVariants: CodeVariantSource[];
   export let description: string;
   export let id: string;
-  export let markdown: string;
+  export let markdownByVariant: Record<CodeVariantId, string>;
   export let title: string;
+
+  $: selectedMarkdown =
+    markdownByVariant[$activeCodeVariant] ?? markdownByVariant.svelte;
 </script>
 
 <section
@@ -31,7 +38,7 @@
     <CopyButton
       label="Copy Markdown"
       successLabel="Markdown copied"
-      text={markdown}
+      text={selectedMarkdown}
     />
   </div>
   <div

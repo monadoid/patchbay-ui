@@ -1102,6 +1102,11 @@
   background: transparent;
 }
 
+.meter[data-orientation="horizontal"] {
+  inline-size: 132px;
+  block-size: 44px;
+}
+
 .meter__bar {
   position: relative;
   display: block;
@@ -1113,6 +1118,11 @@
     inset 1px 0 #050505,
     inset -1px 0 #2b2b2b,
     inset 0 1px #2b2b2b;
+}
+
+.meter[data-orientation="horizontal"] .meter__bar {
+  inline-size: 132px;
+  block-size: 44px;
 }
 
 .meter__bar::before {
@@ -1129,6 +1139,19 @@
   );
 }
 
+.meter[data-orientation="horizontal"] .meter__bar::before {
+  inset-block: 3px;
+  inset-inline-start: 0;
+  inline-size: calc(100% * var(--meter-value, 0));
+  block-size: auto;
+  background: linear-gradient(
+    to right,
+    #45b95c 0 72%,
+    #d7c947 72% 90%,
+    #d45145 90%
+  );
+}
+
 .meter__bar::after {
   content: "";
   position: absolute;
@@ -1136,6 +1159,23 @@
   inset-inline: 0;
   block-size: 1px;
   background: #333333;
+}
+
+.meter__peak {
+  position: absolute;
+  inset-inline: 1px;
+  inset-block-end: calc((100% - 1px) * var(--meter-peak, var(--meter-value, 0)));
+  block-size: 1px;
+  background: #ece7d8;
+  box-shadow: 0 0 4px rgba(236, 231, 216, 0.35);
+  pointer-events: none;
+}
+
+.meter[data-orientation="horizontal"] .meter__peak {
+  inset-block: 1px;
+  inset-inline-start: calc((100% - 1px) * var(--meter-peak, var(--meter-value, 0)));
+  inline-size: 1px;
+  block-size: auto;
 }
 
 .gain {
@@ -1422,9 +1462,13 @@
 
 .macro-rack {
   --macro-rack-columns: 4;
+  --macro-rack-control-min: 64px;
   container-type: inline-size;
   display: grid;
-  grid-template-columns: repeat(var(--macro-rack-columns), minmax(0, 1fr));
+  grid-template-columns: repeat(
+    var(--macro-rack-columns),
+    minmax(var(--macro-rack-control-min), 1fr)
+  );
   align-items: end;
   gap: 12px clamp(4px, 3cqi, 10px);
   min-inline-size: 0;

@@ -11,11 +11,18 @@
   $: props = parseComponentProps("meter", { level, orientation, peak });
 </script>
 
-<div aria-label="Signal meter" class={["meter", className].filter(Boolean).join(" ")} data-meter>
+<div
+  aria-label="Signal meter"
+  class={["meter", className].filter(Boolean).join(" ")}
+  data-meter
+  data-orientation={props.orientation}
+>
   <span
     aria-hidden="true"
     class="meter__bar"
     data-meter-bar
-    style={`--meter-value: ${props.level}`}
-  ></span>
+    style={`--meter-value: ${props.level}; --meter-peak: ${props.peak}`}
+  >
+    <span aria-hidden="true" class="meter__peak"></span>
+  </span>
 </div>

@@ -389,7 +389,7 @@
                 label="Filter macros"
                 {macros}
                 onMacroChange={updateMacro}
-                class="!rounded-t-none !border-t-0 !p-2 [&_.dial]:![--dial-size:30px] [&_.field]:!gap-1 [&_.field\_\_label]:!text-[10px]"
+                class="![--macro-rack-control-min:40px] !rounded-t-none !border-t-0 !p-2 [&_.dial]:![--dial-size:30px] [&_.field]:!gap-1 [&_.field\_\_label]:!text-[10px]"
               />
             </div>
           </div>

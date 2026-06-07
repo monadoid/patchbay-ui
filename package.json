@@ -11,12 +11,15 @@
     "build": "pnpm --filter @patchbayhq/ui build && pnpm --filter @patchbayhq/react build && pnpm --filter @patchbayhq/lab build && pnpm --filter @patchbayhq/docs-worker build",
     "build:docs": "vp run --filter @patchbayhq/docs-worker build",
     "build:lab": "vp run --filter @patchbayhq/lab build",
+    "changeset": "changeset",
     "check-types": "vp run -r check-types",
     "release:npm": "node scripts/publish-npm.mjs",
     "test": "vp run --filter @patchbayhq/ui test",
-    "test:browser": "vp run --filter @patchbayhq/lab test:browser"
+    "test:browser": "vp run --filter @patchbayhq/lab test:browser",
+    "version-packages": "changeset version"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.31.0",
     "@types/node": "^24.10.1",
     "@vitest/browser-playwright": "^4.1.8",
     "playwright": "^1.60.0",

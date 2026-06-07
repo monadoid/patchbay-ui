@@ -1,7 +1,8 @@
-import type {
-  CodeVariantId,
-  CodeVariantSection,
-  CodeVariantSource,
+import {
+  codeVariantLabels,
+  type CodeVariantId,
+  type CodeVariantSection,
+  type CodeVariantSource,
 } from "./code-variants";
 
 const frameworkVariantIds = [
@@ -25,7 +26,7 @@ export type ComponentExample = ComponentExampleInput & {
   code: string;
   codeVariants: CodeVariantSource[];
   language: "html";
-  markdown: string;
+  markdownByVariant: Record<CodeVariantId, string>;
 };
 
 function trimCode(code: string) {
@@ -71,37 +72,53 @@ function codeFenceLanguage(variant: CodeVariantSource) {
   return variant.language;
 }
 
-function variantsMarkdown(variants: readonly CodeVariantSource[]) {
-  return variants
-    .map((variant) => {
-      const heading = `### ${variant.label ?? variant.id.toUpperCase()}`;
+function codeBlockMarkdown(variant: CodeVariantSource) {
+  const language = variant.sections?.length ? "text" : codeFenceLanguage(variant);
 
-      if (variant.sections?.length) {
-        return `${heading}
-
-\`\`\`text
+  return `\`\`\`${language}
 ${variant.code}
 \`\`\``;
-      }
-
-      return `${heading}
-
-\`\`\`${codeFenceLanguage(variant)}
-${variant.code}
-\`\`\``;
-    })
-    .join("\n\n");
 }
 
-function componentMarkdown(example: ComponentExampleInput) {
-  const variants = createCodeVariants(example);
+function variantMarkdown(variant: CodeVariantSource, headingLevel = 3) {
+  const heading = `${"#".repeat(headingLevel)} ${
+    variant.label ?? codeVariantLabels[variant.id]
+  }`;
 
-  return `## ${example.title}
+  return `${heading}
+
+${codeBlockMarkdown(variant)}`;
+}
+
+function variantsMarkdown(variants: readonly CodeVariantSource[]) {
+  return variants.map((variant) => variantMarkdown(variant)).join("\n\n");
+}
+
+function componentMarkdown(
+  example: ComponentExampleInput,
+  options: { headingLevel?: number; variantId?: CodeVariantId } = {},
+) {
+  const variants = createCodeVariants(example);
+  const selectedVariant = options.variantId
+    ? variants.find((variant) => variant.id === options.variantId)
+    : undefined;
+  const heading = `${"#".repeat(options.headingLevel ?? 2)} ${example.title}`;
+
+  return `${heading}
 
 ${example.description}
 
-${variantsMarkdown(variants)}
+${selectedVariant ? codeBlockMarkdown(selectedVariant) : variantsMarkdown(variants)}
 `;
+}
+
+function componentMarkdownByVariant(example: ComponentExampleInput) {
+  return Object.fromEntries(
+    frameworkVariantIds.map((variantId) => [
+      variantId,
+      componentMarkdown(example, { variantId }),
+    ]),
+  ) as Record<CodeVariantId, string>;
 }
 
 function createExample(example: ComponentExampleInput): ComponentExample {
@@ -110,7 +127,7 @@ function createExample(example: ComponentExampleInput): ComponentExample {
     code: createExampleCode(example),
     codeVariants: createCodeVariants(example),
     language: "html",
-    markdown: componentMarkdown(example),
+    markdownByVariant: componentMarkdownByVariant(example),
   };
 }
 
@@ -508,22 +525,35 @@ export function EnableToggle() {
     title: "button",
     description: "A square momentary control with shared appearance states.",
     react: `
+import { useState } from "react";
 import { Button } from "@patchbayhq/react";
 
 export function TriggerButton() {
-  return <Button label="Trigger" mode="momentary" appearance="primary" onPressedChange={(pressed) => console.log(pressed)} />;
+  const [pressed, setPressed] = useState(false);
+
+  return (
+    <>
+      <Button
+        label="Trigger"
+        mode="momentary"
+        appearance="primary"
+        pressed={pressed}
+        onPressedChange={setPressed}
+      />
+      <output>{pressed ? "pressed" : "idle"}</output>
+    </>
+  );
 }
 `,
     svelte: `
 <script lang="ts">
   import { Button } from "@patchbayhq/svelte";
 
-  function handlePressedChange(pressed: boolean) {
-    console.log(pressed);
-  }
+  let pressed = false;
 </script>
 
-<Button label="Trigger" mode="momentary" appearance="primary" onPressedChange={handlePressedChange} />
+<Button label="Trigger" mode="momentary" appearance="primary" bind:pressed />
+<output>{pressed ? "pressed" : "idle"}</output>
 `,
     html: `
 <button class="button" data-appearance="primary" type="button" aria-label="Trigger"></button>
@@ -747,22 +777,39 @@ export function DirectionArrows() {
     title: "drop",
     description: "A file input styled as a compact drop target.",
     react: `
+import { useState } from "react";
 import { Drop } from "@patchbayhq/react";
 
 export function SampleDrop() {
-  return <Drop label="Drop file" accept={["audio/wav", "audio/aiff"]} onFilesChange={console.log} />;
+  const [fileNames, setFileNames] = useState("No file selected");
+
+  return (
+    <>
+      <Drop
+        label="Drop file"
+        accept={["audio/wav", "audio/aiff"]}
+        onFilesChange={(files) =>
+          setFileNames(Array.from(files).map((file) => file.name).join(", ") || "No file selected")
+        }
+      />
+      <output>{fileNames}</output>
+    </>
+  );
 }
 `,
     svelte: `
 <script lang="ts">
   import { Drop } from "@patchbayhq/svelte";
 
+  let fileNames = "No file selected";
+
   function handleFilesChange(files: FileList) {
-    console.log(files);
+    fileNames = Array.from(files).map((file) => file.name).join(", ") || "No file selected";
   }
 </script>
 
 <Drop label="Drop file" accept={["audio/wav", "audio/aiff"]} onFilesChange={handleFilesChange} />
+<output>{fileNames}</output>
 `,
     html: `
 <label class="drop">
@@ -919,7 +966,7 @@ const initialNotes: StepNote[] = [
   { step: 11, lane: 2, velocity: 1, duration: 1 },
 ];
 
-export function StepSequencer() {
+export function StepSequencerDemo() {
   const [auditionKey, setAuditionKey] = useState<StepKey | null>(null);
   const [loop, setLoop] = useState<StepLoop>({ start: 1, end: 16 });
   const [notes, setNotes] = useState(initialNotes);
@@ -1566,15 +1613,31 @@ step.addEventListener("step-change", (event) => {
   }),
 ] as const satisfies readonly ComponentExample[];
 
-export const pageMarkdown = `# patchbay ui
+export function pageMarkdownForVariant(variantId: CodeVariantId) {
+  const setupVariant =
+    getStartedVariants.find((variant) => variant.id === variantId) ??
+    getStartedVariants[0]!;
+
+  return `# patchbay ui
 
 Native HTML controls for audio-extension UIs. Use them from vanilla JavaScript, React, or Svelte.
 
 ## Get Started
 
-${variantsMarkdown(getStartedVariants)}
+${variantMarkdown(setupVariant)}
 
 ## Components
 
-${componentExamples.map((example) => componentMarkdown(example)).join("\n")}
-`;
+${componentExamples
+  .map((example) =>
+    componentMarkdown(example, { headingLevel: 3, variantId }),
+  )
+  .join("\n")}`;
+}
+
+export const pageMarkdownByVariant = Object.fromEntries(
+  frameworkVariantIds.map((variantId) => [
+    variantId,
+    pageMarkdownForVariant(variantId),
+  ]),
+) as Record<CodeVariantId, string>;

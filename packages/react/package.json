@@ -1,6 +1,6 @@
 {
   "name": "@patchbayhq/react",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "React wrappers for patchbay UI audio controls.",
   "license": "MIT",
   "type": "module",
@@ -45,7 +45,7 @@
     "check-types": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@patchbayhq/ui": "^0.1.1"
+    "@patchbayhq/ui": "^0.1.2"
   },
   "peerDependencies": {
     "react": "^19.0.0",
