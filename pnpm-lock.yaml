@@ -95,7 +95,7 @@ importers:
   packages/react:
     dependencies:
       '@patchbayhq/ui':
-        specifier: ^0.1.1
+        specifier: ^0.1.2
         version: link:../pb-ui
     devDependencies:
       '@types/react':
@@ -114,7 +114,7 @@ importers:
   packages/svelte:
     dependencies:
       '@patchbayhq/ui':
-        specifier: ^0.1.1
+        specifier: ^0.1.2
         version: link:../pb-ui
     devDependencies:
       svelte:
