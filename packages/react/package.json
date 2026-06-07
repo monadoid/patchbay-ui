@@ -1,19 +1,51 @@
 {
-  "name": "@patchbay/react",
-  "private": true,
-  "version": "0.0.0",
+  "name": "@patchbayhq/react",
+  "version": "0.1.0",
+  "description": "React wrappers for patchbay UI audio controls.",
   "license": "MIT",
   "type": "module",
+  "homepage": "https://ui.patchbay.tools",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/monadoid/patchbay-ui.git",
+    "directory": "packages/react"
+  },
+  "bugs": {
+    "url": "https://github.com/monadoid/patchbay-ui/issues"
+  },
+  "keywords": [
+    "audio",
+    "controls",
+    "react",
+    "ui"
+  ],
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "sideEffects": [
+    "./dist/styles.css",
+    "./dist/tailwind.css"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "exports": {
-    ".": "./src/index.tsx",
-    "./styles.css": "./src/styles.css",
-    "./tailwind.css": "./src/tailwind.css"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./tailwind.css": "./dist/tailwind.css",
+    "./package.json": "./package.json"
   },
   "scripts": {
+    "build": "rm -rf dist && tsc -p tsconfig.build.json && cp src/styles.css src/tailwind.css dist/",
     "check-types": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@patchbay/ui": "workspace:*"
+    "@patchbayhq/ui": "^0.1.0"
   },
   "peerDependencies": {
     "react": "^19.0.0",

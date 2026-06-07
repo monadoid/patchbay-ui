@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { parseComponentProps, type ArrowDirection } from "@patchbay/ui";
+  import { parseComponentProps, type ArrowDirection } from "@patchbayhq/ui";
 
   export let value: ArrowDirection = "right";
   export let disabled = false;

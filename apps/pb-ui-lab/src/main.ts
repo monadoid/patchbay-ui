@@ -5,8 +5,8 @@ import {
   tailwindPreset,
   themeStyle,
   type ThemeOverrides,
-} from "@patchbay/ui";
-import "@patchbay/ui/styles.css";
+} from "@patchbayhq/ui";
+import "@patchbayhq/ui/styles.css";
 import "./styles.css";
 
 defineElements();

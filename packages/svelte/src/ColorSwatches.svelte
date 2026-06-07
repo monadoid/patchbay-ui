@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { parseComponentProps } from "@patchbay/ui";
+  import { parseComponentProps } from "@patchbayhq/ui";
 
   export let swatches = ["#9cd8ca", "#f0b51d", "#aebaff"];
   export let value: string | undefined = undefined;

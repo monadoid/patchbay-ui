@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { parseComponentProps } from "@patchbay/ui";
+  import { parseComponentProps } from "@patchbayhq/ui";
 
   export let label = "Drop Something Here!";
   export let accept: string | string[] | undefined = undefined;

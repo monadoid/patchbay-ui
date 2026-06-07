@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onDestroy } from "svelte";
-  import { parseComponentProps, type EnvelopeShape } from "@patchbay/ui";
+  import { parseComponentProps, type EnvelopeShape } from "@patchbayhq/ui";
 
   export let envelope: EnvelopeShape = { attack: 0.2, decay: 0.3, release: 0.35, sustain: 0.7 };
   export let disabled = false;

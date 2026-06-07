@@ -66,4 +66,4 @@ export type {
   TabsProps,
   TextButtonProps,
   ToggleProps,
-} from "@patchbay/ui";
+} from "@patchbayhq/ui";

@@ -1,4 +1,4 @@
-import "@patchbay/ui/styles.css";
+import "@patchbayhq/ui/styles.css";
 import "./app.css";
 import "./docs-theme.css";
 

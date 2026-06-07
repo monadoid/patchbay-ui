@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { parseComponentProps } from "@patchbay/ui";
+  import { parseComponentProps } from "@patchbayhq/ui";
 
   export let text = "";
   export let align: "left" | "center" | "right" = "left";

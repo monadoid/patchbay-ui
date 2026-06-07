@@ -1,4 +1,4 @@
-import { defineElements, initUi, type StepKey } from "@patchbay/ui";
+import { defineElements, initUi, type StepKey } from "@patchbayhq/ui";
 
 export const stepKeys: StepKey[] = [
   "C4",

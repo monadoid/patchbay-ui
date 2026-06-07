@@ -11,12 +11,12 @@ Choose one setup path. Each package includes the base control styles; import tho
 ### Vanilla
 
 ```bash
-pnpm add @patchbay/ui
+pnpm add @patchbayhq/ui
 ```
 
 ```ts
-import "@patchbay/ui/styles.css";
-import { defineElements, initUi } from "@patchbay/ui";
+import "@patchbayhq/ui/styles.css";
+import { defineElements, initUi } from "@patchbayhq/ui";
 
 const device = document.querySelector("[data-patchbay-device]");
 
@@ -38,12 +38,12 @@ if (device) initUi(device);
 ### React
 
 ```bash
-pnpm add @patchbay/react
+pnpm add @patchbayhq/react
 ```
 
 ```tsx
-import "@patchbay/react/styles.css";
-import { Slider } from "@patchbay/react";
+import "@patchbayhq/react/styles.css";
+import { Slider } from "@patchbayhq/react";
 
 export function DevicePanel() {
   return <Slider label="Filter" value={0.42} modulation={0.64} orientation="vertical" />;
@@ -53,13 +53,13 @@ export function DevicePanel() {
 ### Svelte
 
 ```bash
-pnpm add @patchbay/svelte
+pnpm add @patchbayhq/svelte
 ```
 
 ```svelte
 <script lang="ts">
-  import "@patchbay/svelte/styles.css";
-  import { Slider } from "@patchbay/svelte";
+  import "@patchbayhq/svelte/styles.css";
+  import { Slider } from "@patchbayhq/svelte";
 
   let value = 0.42;
 </script>
@@ -71,11 +71,11 @@ pnpm add @patchbay/svelte
 
 ```css
 @import "tailwindcss";
-@import "@patchbay/ui/styles.css";
-@import "@patchbay/ui/tailwind.css";
+@import "@patchbayhq/ui/styles.css";
+@import "@patchbayhq/ui/tailwind.css";
 ```
 
-Use `@patchbay/react/tailwind.css` or `@patchbay/svelte/tailwind.css` when installing a framework wrapper.
+Use `@patchbayhq/react/tailwind.css` or `@patchbayhq/svelte/tailwind.css` when installing a framework wrapper.
 
 ## Legal
 

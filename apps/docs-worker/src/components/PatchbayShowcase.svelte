@@ -14,7 +14,7 @@
     type MacroRackMacro,
     type MenuItem,
     type StatusTone,
-  } from "@patchbay/svelte";
+  } from "@patchbayhq/svelte";
 
   type SceneId = "a" | "b";
   type PresetId = "dust" | "glass" | "tape";

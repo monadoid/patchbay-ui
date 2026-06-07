@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onDestroy, tick } from "svelte";
-  import { defineElements, initUi } from "@patchbay/ui";
+  import { defineElements, initUi } from "@patchbayhq/ui";
 
   export let code: string;
 

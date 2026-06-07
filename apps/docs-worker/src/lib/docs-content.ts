@@ -185,14 +185,14 @@ function createSetupVariant({
 
 const vanillaSetupSections = [
   {
-    code: "pnpm add @patchbay/ui",
+    code: "pnpm add @patchbayhq/ui",
     language: "bash",
     title: "Install",
   },
   {
     code: `
-import "@patchbay/ui/styles.css";
-import { defineElements, initUi } from "@patchbay/ui";
+import "@patchbayhq/ui/styles.css";
+import { defineElements, initUi } from "@patchbayhq/ui";
 
 const device = document.querySelector("[data-patchbay-device]");
 
@@ -221,8 +221,8 @@ if (device) initUi(device);
   {
     code: `
 @import "tailwindcss";
-@import "@patchbay/ui/styles.css";
-@import "@patchbay/ui/tailwind.css";
+@import "@patchbayhq/ui/styles.css";
+@import "@patchbayhq/ui/tailwind.css";
 ${tailwindThemeBody}
 `,
     file: "src/styles.css",
@@ -233,19 +233,19 @@ ${tailwindThemeBody}
 
 const reactSetupSections = [
   {
-    code: "pnpm add @patchbay/react",
+    code: "pnpm add @patchbayhq/react",
     language: "bash",
     title: "Install",
   },
   {
-    code: 'import "@patchbay/react/styles.css";',
+    code: 'import "@patchbayhq/react/styles.css";',
     file: "app/layout.tsx, src/main.tsx, or another global entry",
     language: "tsx",
     title: "Add the base CSS once",
   },
   {
     code: `
-import { Slider } from "@patchbay/react";
+import { Slider } from "@patchbayhq/react";
 
 export function DevicePanel() {
   return <Slider label="Filter" value={0.42} modulation={0.64} orientation="vertical" />;
@@ -258,8 +258,8 @@ export function DevicePanel() {
   {
     code: `
 @import "tailwindcss";
-@import "@patchbay/react/styles.css";
-@import "@patchbay/react/tailwind.css";
+@import "@patchbayhq/react/styles.css";
+@import "@patchbayhq/react/tailwind.css";
 ${tailwindThemeBody}
 `,
     file: "app/globals.css or src/index.css",
@@ -270,14 +270,14 @@ ${tailwindThemeBody}
 
 const svelteSetupSections = [
   {
-    code: "pnpm add @patchbay/svelte",
+    code: "pnpm add @patchbayhq/svelte",
     language: "bash",
     title: "Install",
   },
   {
     code: `
 <script lang="ts">
-  import "@patchbay/svelte/styles.css";
+  import "@patchbayhq/svelte/styles.css";
 </script>
 `,
     file: "src/routes/+layout.svelte or src/App.svelte",
@@ -287,7 +287,7 @@ const svelteSetupSections = [
   {
     code: `
 <script lang="ts">
-  import { Slider } from "@patchbay/svelte";
+  import { Slider } from "@patchbayhq/svelte";
 
   let value = 0.42;
 </script>
@@ -301,8 +301,8 @@ const svelteSetupSections = [
   {
     code: `
 @import "tailwindcss";
-@import "@patchbay/svelte/styles.css";
-@import "@patchbay/svelte/tailwind.css";
+@import "@patchbayhq/svelte/styles.css";
+@import "@patchbayhq/svelte/tailwind.css";
 ${tailwindThemeBody}
 `,
     file: "src/app.css",
@@ -333,7 +333,7 @@ export const componentExamples = [
     title: "panel shell",
     description: "Device shell primitives for headers, sections, and status.",
     react: `
-import { Panel, PanelHeader, PanelSection, StatusIndicator, Toggle } from "@patchbay/react";
+import { Panel, PanelHeader, PanelSection, StatusIndicator, Toggle } from "@patchbayhq/react";
 
 export function DeviceShell() {
   return (
@@ -352,7 +352,7 @@ export function DeviceShell() {
 `,
     svelte: `
 <script lang="ts">
-  import { Panel, PanelHeader, PanelSection, StatusIndicator, Toggle } from "@patchbay/svelte";
+  import { Panel, PanelHeader, PanelSection, StatusIndicator, Toggle } from "@patchbayhq/svelte";
 </script>
 
 <Panel>
@@ -399,7 +399,7 @@ export function DeviceShell() {
     title: "slider",
     description: "A native range input styled as a compact parameter slider.",
     react: `
-import { Slider } from "@patchbay/react";
+import { Slider } from "@patchbayhq/react";
 
 export function FilterSlider() {
   return <Slider label="Filter" value={0.42} modulation={0.64} orientation="vertical" />;
@@ -407,7 +407,7 @@ export function FilterSlider() {
 `,
     svelte: `
 <script lang="ts">
-  import { Slider } from "@patchbay/svelte";
+  import { Slider } from "@patchbayhq/svelte";
 
   let value = 0.42;
 </script>
@@ -430,7 +430,7 @@ export function FilterSlider() {
     description: "A compact macro dial driven by a range input.",
     react: `
 import { useState } from "react";
-import { Dial } from "@patchbay/react";
+import { Dial } from "@patchbayhq/react";
 
 export function MacroDial() {
   const [value, setValue] = useState(0.62);
@@ -440,7 +440,7 @@ export function MacroDial() {
 `,
     svelte: `
 <script lang="ts">
-  import { Dial } from "@patchbay/svelte";
+  import { Dial } from "@patchbayhq/svelte";
 
   let value = 0.62;
 </script>
@@ -478,7 +478,7 @@ syncDial();
     description: "A checkbox-backed toggle with shared appearance states.",
     react: `
 import { useState } from "react";
-import { Toggle } from "@patchbay/react";
+import { Toggle } from "@patchbayhq/react";
 
 export function EnableToggle() {
   const [checked, setChecked] = useState(true);
@@ -488,7 +488,7 @@ export function EnableToggle() {
 `,
     svelte: `
 <script lang="ts">
-  import { Toggle } from "@patchbay/svelte";
+  import { Toggle } from "@patchbayhq/svelte";
 
   let checked = true;
 </script>
@@ -508,7 +508,7 @@ export function EnableToggle() {
     title: "button",
     description: "A square momentary control with shared appearance states.",
     react: `
-import { Button } from "@patchbay/react";
+import { Button } from "@patchbayhq/react";
 
 export function TriggerButton() {
   return <Button label="Trigger" mode="momentary" appearance="primary" onPressedChange={(pressed) => console.log(pressed)} />;
@@ -516,7 +516,7 @@ export function TriggerButton() {
 `,
     svelte: `
 <script lang="ts">
-  import { Button } from "@patchbay/svelte";
+  import { Button } from "@patchbayhq/svelte";
 
   function handlePressedChange(pressed: boolean) {
     console.log(pressed);
@@ -542,7 +542,7 @@ button.addEventListener("pointerleave", () => button.classList.remove("is-active
     description: "A small command button with text, icon, or picture content.",
     react: `
 import { useState } from "react";
-import { TextButton } from "@patchbay/react";
+import { TextButton } from "@patchbayhq/react";
 
 export function TriggerTextButton() {
   const [value, setValue] = useState(false);
@@ -560,7 +560,7 @@ export function TriggerTextButton() {
 `,
     svelte: `
 <script lang="ts">
-  import { TextButton } from "@patchbay/svelte";
+  import { TextButton } from "@patchbayhq/svelte";
 
   let value = false;
 </script>
@@ -585,7 +585,7 @@ export function TriggerTextButton() {
     title: "comment",
     description: "Plain device text using the same scale and color.",
     react: `
-import { Label } from "@patchbay/react";
+import { Label } from "@patchbayhq/react";
 
 export function ParameterNote() {
   return <Label text="Parameter note" />;
@@ -593,7 +593,7 @@ export function ParameterNote() {
 `,
     svelte: `
 <script lang="ts">
-  import { Label } from "@patchbay/svelte";
+  import { Label } from "@patchbayhq/svelte";
 </script>
 
 <Label text="Parameter note" />
@@ -609,7 +609,7 @@ export function ParameterNote() {
     description: "A compact segmented tab group.",
     react: `
 import { useState } from "react";
-import { Tabs } from "@patchbay/react";
+import { Tabs } from "@patchbayhq/react";
 
 const items = [
   { value: "one", label: "One" },
@@ -625,7 +625,7 @@ export function ModeTabs() {
 `,
     svelte: `
 <script lang="ts">
-  import { Tabs } from "@patchbay/svelte";
+  import { Tabs } from "@patchbayhq/svelte";
 
   let value = "one";
   const items = [
@@ -668,7 +668,7 @@ tabs.forEach((button) => {
     description: "A custom listbox menu with controllable styling and keyboard focus.",
     react: `
 import { useState } from "react";
-import { Menu } from "@patchbay/react";
+import { Menu } from "@patchbayhq/react";
 
 const items = [
   { value: "classic", label: "Classic" },
@@ -684,7 +684,7 @@ export function ModeMenu() {
 `,
     svelte: `
 <script lang="ts">
-  import { Menu } from "@patchbay/svelte";
+  import { Menu } from "@patchbayhq/svelte";
 
   let value = "classic";
   const items = [
@@ -717,7 +717,7 @@ export function ModeMenu() {
     description: "A two-button arrow stepper.",
     react: `
 import { useState } from "react";
-import { Arrows, type ArrowDirection } from "@patchbay/react";
+import { Arrows, type ArrowDirection } from "@patchbayhq/react";
 
 export function DirectionArrows() {
   const [value, setValue] = useState<ArrowDirection>("right");
@@ -727,7 +727,7 @@ export function DirectionArrows() {
 `,
     svelte: `
 <script lang="ts">
-  import { Arrows, type ArrowDirection } from "@patchbay/svelte";
+  import { Arrows, type ArrowDirection } from "@patchbayhq/svelte";
 
   let value: ArrowDirection = "right";
 </script>
@@ -747,7 +747,7 @@ export function DirectionArrows() {
     title: "drop",
     description: "A file input styled as a compact drop target.",
     react: `
-import { Drop } from "@patchbay/react";
+import { Drop } from "@patchbayhq/react";
 
 export function SampleDrop() {
   return <Drop label="Drop file" accept={["audio/wav", "audio/aiff"]} onFilesChange={console.log} />;
@@ -755,7 +755,7 @@ export function SampleDrop() {
 `,
     svelte: `
 <script lang="ts">
-  import { Drop } from "@patchbay/svelte";
+  import { Drop } from "@patchbayhq/svelte";
 
   function handleFilesChange(files: FileList) {
     console.log(files);
@@ -777,7 +777,7 @@ export function SampleDrop() {
     title: "line",
     description: "Horizontal and vertical divider primitives.",
     react: `
-import { Line } from "@patchbay/react";
+import { Line } from "@patchbayhq/react";
 
 export function Dividers() {
   return (
@@ -790,7 +790,7 @@ export function Dividers() {
 `,
     svelte: `
 <script lang="ts">
-  import { Line } from "@patchbay/svelte";
+  import { Line } from "@patchbayhq/svelte";
 </script>
 
 <Line orientation="horizontal" length={170} />
@@ -810,7 +810,7 @@ export function Dividers() {
     description: "A native number input with device styling.",
     react: `
 import { useState } from "react";
-import { NumberBox } from "@patchbay/react";
+import { NumberBox } from "@patchbayhq/react";
 
 export function MidiNumber() {
   const [value, setValue] = useState(64);
@@ -820,7 +820,7 @@ export function MidiNumber() {
 `,
     svelte: `
 <script lang="ts">
-  import { NumberBox } from "@patchbay/svelte";
+  import { NumberBox } from "@patchbayhq/svelte";
 
   let value = 64;
 </script>
@@ -839,7 +839,7 @@ export function MidiNumber() {
       "A sequencer-style grid with note markers and direction controls.",
     react: `
 import { useState } from "react";
-import { Grid, type GridProps } from "@patchbay/react";
+import { Grid, type GridProps } from "@patchbayhq/react";
 
 const initialCells: GridProps["cells"] = Array.from({ length: 16 }, (_, index) => ({
   active: [1, 5, 9, 10, 14].includes(index),
@@ -866,7 +866,7 @@ export function PatternGrid() {
 `,
     svelte: `
 <script lang="ts">
-  import { Grid, type GridProps } from "@patchbay/svelte";
+  import { Grid, type GridProps } from "@patchbayhq/svelte";
 
   let cells: GridProps["cells"] = Array.from({ length: 16 }, (_, index) => ({
     active: [1, 5, 9, 10, 14].includes(index),
@@ -911,7 +911,7 @@ grid.addEventListener("grid-change", (event) => {
       "A piano-roll step sequencer surface with bar-start note accents.",
     react: `
 import { useState } from "react";
-import { StepSequencer, type StepKey, type StepLoop, type StepNote } from "@patchbay/react";
+import { StepSequencer, type StepKey, type StepLoop, type StepNote } from "@patchbayhq/react";
 
 const initialNotes: StepNote[] = [
   { step: 1, lane: 7, velocity: 1, duration: 1 },
@@ -943,7 +943,7 @@ export function StepSequencer() {
 `,
     svelte: `
 <script lang="ts">
-  import { StepSequencer, type StepKey, type StepLoop, type StepNote } from "@patchbay/svelte";
+  import { StepSequencer, type StepKey, type StepLoop, type StepNote } from "@patchbayhq/svelte";
 
   let auditionKey: StepKey | null = null;
   let loop: StepLoop = { start: 1, end: 16 };
@@ -994,7 +994,7 @@ step.addEventListener("step-change", (event) => {
     description: "An envelope editor surface with draggable-handle styling.",
     react: `
 import { useState } from "react";
-import { Envelope, type EnvelopeShape } from "@patchbay/react";
+import { Envelope, type EnvelopeShape } from "@patchbayhq/react";
 
 export function EnvelopeEditor() {
   const [envelope, setEnvelope] = useState<EnvelopeShape>({
@@ -1009,7 +1009,7 @@ export function EnvelopeEditor() {
 `,
     svelte: `
 <script lang="ts">
-  import { Envelope, type EnvelopeShape } from "@patchbay/svelte";
+  import { Envelope, type EnvelopeShape } from "@patchbayhq/svelte";
 
   let envelope: EnvelopeShape = {
     attack: 0.2,
@@ -1042,7 +1042,7 @@ export function EnvelopeEditor() {
     description: "Draw waveform samples from JavaScript into the scope canvas.",
     react: `
 import { useEffect, useState } from "react";
-import { Scope } from "@patchbay/react";
+import { Scope } from "@patchbayhq/react";
 
 function makeWave(phase: number) {
   return Array.from({ length: 96 }, (_, index) => {
@@ -1069,7 +1069,7 @@ export function WaveScope() {
     svelte: `
 <script lang="ts">
   import { onMount } from "svelte";
-  import { Scope } from "@patchbay/svelte";
+  import { Scope } from "@patchbayhq/svelte";
 
   function makeWave(phase: number) {
     return Array.from({ length: 96 }, (_, index) => {
@@ -1149,7 +1149,7 @@ frameId = requestAnimationFrame(draw);
       "Feed the meter a stream of normalized JavaScript signal levels.",
     react: `
 import { useEffect, useState } from "react";
-import { Meter } from "@patchbay/react";
+import { Meter } from "@patchbayhq/react";
 
 function readSignalLevel(time: number) {
   const pulse = Math.max(0, Math.sin(time / 260)) * 0.26;
@@ -1180,7 +1180,7 @@ export function SignalMeter() {
     svelte: `
 <script lang="ts">
   import { onMount } from "svelte";
-  import { Meter } from "@patchbay/svelte";
+  import { Meter } from "@patchbayhq/svelte";
 
   function readSignalLevel(time: number) {
     const pulse = Math.max(0, Math.sin(time / 260)) * 0.26;
@@ -1245,7 +1245,7 @@ frameId = requestAnimationFrame(frame);
       "Use valueDb for the fader and stream normalized level into the signal meter.",
     react: `
 import { useEffect, useState } from "react";
-import { Gain } from "@patchbay/react";
+import { Gain } from "@patchbayhq/react";
 
 function readSignalLevel(time: number) {
   const beat = Math.max(0, Math.sin(time / 340 + 0.8)) * 0.22;
@@ -1277,7 +1277,7 @@ export function OutputGain() {
     svelte: `
 <script lang="ts">
   import { onMount } from "svelte";
-  import { Gain } from "@patchbay/svelte";
+  import { Gain } from "@patchbayhq/svelte";
 
   function readSignalLevel(time: number) {
     const beat = Math.max(0, Math.sin(time / 340 + 0.8)) * 0.22;
@@ -1363,7 +1363,7 @@ frameId = requestAnimationFrame(frame);
     description: "A compact color swatch grid.",
     react: `
 import { useState } from "react";
-import { ColorSwatches } from "@patchbay/react";
+import { ColorSwatches } from "@patchbayhq/react";
 
 const swatches = ["#9cd8ca", "#f0b51d", "#aebaff"];
 
@@ -1375,7 +1375,7 @@ export function ColorPicker() {
 `,
     svelte: `
 <script lang="ts">
-  import { ColorSwatches } from "@patchbay/svelte";
+  import { ColorSwatches } from "@patchbayhq/svelte";
 
   const swatches = ["#9cd8ca", "#f0b51d", "#aebaff"];
   let value = swatches[0];
@@ -1398,7 +1398,7 @@ export function ColorPicker() {
     description: "A bank of dial macros with a compact rack layout.",
     react: `
 import { useState } from "react";
-import { MacroRack, type MacroRackMacro } from "@patchbay/react";
+import { MacroRack, type MacroRackMacro } from "@patchbayhq/react";
 
 const initialMacros: MacroRackMacro[] = [
   { id: "filter", label: "Filter", value: 0.72 },
@@ -1423,7 +1423,7 @@ export function MacroControls() {
 `,
     svelte: `
 <script lang="ts">
-  import { MacroRack, type MacroRackMacro } from "@patchbay/svelte";
+  import { MacroRack, type MacroRackMacro } from "@patchbayhq/svelte";
 
   let macros: MacroRackMacro[] = [
     { id: "filter", label: "Filter", value: 0.72 },
@@ -1471,7 +1471,7 @@ export function MacroControls() {
     description: "A clip launcher shell around the step sequencer surface.",
     react: `
 import { useState } from "react";
-import { ClipStepLauncher, type StepLoop, type StepNote } from "@patchbay/react";
+import { ClipStepLauncher, type StepLoop, type StepNote } from "@patchbayhq/react";
 
 const initialNotes: StepNote[] = [
   { step: 1, lane: 7, velocity: 1, duration: 1 },
@@ -1501,7 +1501,7 @@ export function Launcher() {
 `,
     svelte: `
 <script lang="ts">
-  import { ClipStepLauncher, type StepLoop, type StepNote } from "@patchbay/svelte";
+  import { ClipStepLauncher, type StepLoop, type StepNote } from "@patchbayhq/svelte";
 
   let loop: StepLoop = { start: 1, end: 16 };
   let notes: StepNote[] = [

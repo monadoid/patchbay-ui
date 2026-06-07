@@ -6,7 +6,7 @@
     type GridChangeDetail,
     type GridDirection,
     type StepColor,
-  } from "@patchbay/ui";
+  } from "@patchbayhq/ui";
   import { onMount } from "svelte";
 
   export let cells: GridCell[] = Array.from({ length: 16 }, () => ({

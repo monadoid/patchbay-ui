@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { parseComponentProps } from "@patchbay/ui";
+  import { parseComponentProps } from "@patchbayhq/ui";
 
   export let samples: number[] = [];
   export let mode: "waveform" | "lissajous" = "waveform";

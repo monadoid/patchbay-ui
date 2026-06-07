@@ -5,7 +5,7 @@
     parseComponentProps,
     type DialDragAxis,
     type DialMode,
-  } from "@patchbay/ui";
+  } from "@patchbayhq/ui";
   import { ratio } from "./shared";
 
   export let label = "Dial";

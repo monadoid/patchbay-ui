@@ -1,5 +1,5 @@
 {
-  "name": "@patchbay/docs-worker",
+  "name": "@patchbayhq/docs-worker",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -13,8 +13,8 @@
     "start": "vite build && wrangler dev --host 127.0.0.1 --port 7011"
   },
   "dependencies": {
-    "@patchbay/svelte": "workspace:*",
-    "@patchbay/ui": "workspace:*",
+    "@patchbayhq/svelte": "workspace:*",
+    "@patchbayhq/ui": "workspace:*",
     "@sveltejs/vite-plugin-svelte": "^7.1.2",
     "@tailwindcss/vite": "^4.3.0",
     "lucide-svelte": "^1.0.1",

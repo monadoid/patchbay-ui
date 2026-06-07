@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { parseComponentProps, type NumberFormat } from "@patchbay/ui";
+  import { parseComponentProps, type NumberFormat } from "@patchbayhq/ui";
 
   export let label = "Number";
   export let value = 0;

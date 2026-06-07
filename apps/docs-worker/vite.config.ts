@@ -9,20 +9,20 @@ export default defineConfig({
   plugins: [tailwindcss(), svelte()],
   resolve: {
     alias: {
-      "@patchbay/ui/styles.css": path.resolve(
+      "@patchbayhq/ui/styles.css": path.resolve(
         repoRoot,
         "packages/pb-ui/src/styles.css",
       ),
-      "@patchbay/ui/tailwind.css": path.resolve(
+      "@patchbayhq/ui/tailwind.css": path.resolve(
         repoRoot,
         "packages/pb-ui/src/tailwind.css",
       ),
-      "@patchbay/ui/theme": path.resolve(
+      "@patchbayhq/ui/theme": path.resolve(
         repoRoot,
         "packages/pb-ui/src/theme.ts",
       ),
-      "@patchbay/ui": path.resolve(repoRoot, "packages/pb-ui/src/index.ts"),
-      "@patchbay/svelte": path.resolve(repoRoot, "packages/svelte/src/index.ts"),
+      "@patchbayhq/ui": path.resolve(repoRoot, "packages/pb-ui/src/index.ts"),
+      "@patchbayhq/svelte": path.resolve(repoRoot, "packages/svelte/src/index.ts"),
     },
   },
   server: {

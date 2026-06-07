@@ -2,8 +2,8 @@ import {
   defineElements,
   initUi,
   parseComponentProps,
-} from "@patchbay/ui";
-import type * as Patchbay from "@patchbay/ui";
+} from "@patchbayhq/ui";
+import type * as Patchbay from "@patchbayhq/ui";
 import {
   useEffect,
   useId,
@@ -67,12 +67,16 @@ type StepDomElement = HTMLElement & {
   loop: Patchbay.StepSequencerProps["loop"];
   notes: Patchbay.StepNote[];
 };
+export type PatchbayElementProps = DetailedHTMLProps<
+  HTMLAttributes<HTMLElement>,
+  HTMLElement
+>;
 
 declare module "react" {
   namespace JSX {
     interface IntrinsicElements {
-      "sequencer-grid": DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
-      "step-sequencer": DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
+      "sequencer-grid": PatchbayElementProps;
+      "step-sequencer": PatchbayElementProps;
     }
   }
 }

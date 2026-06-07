@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { parseComponentProps, type ControlAppearance } from "@patchbay/ui";
+  import { parseComponentProps, type ControlAppearance } from "@patchbayhq/ui";
 
   export let label = "Toggle";
   export let checked = false;

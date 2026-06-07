@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { parseComponentProps } from "@patchbay/ui";
+  import { parseComponentProps } from "@patchbayhq/ui";
   import { ratio } from "./shared";
 
   export let valueDb = -12;

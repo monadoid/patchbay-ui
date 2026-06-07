@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { parseComponentProps, type Orientation } from "@patchbay/ui";
+  import { parseComponentProps, type Orientation } from "@patchbayhq/ui";
   import { init } from "./shared";
 
   export let label = "Slider";

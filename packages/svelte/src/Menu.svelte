@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { parseComponentProps, type MenuItem } from "@patchbay/ui";
+  import { parseComponentProps, type MenuItem } from "@patchbayhq/ui";
 
   export let value = "classic";
   export let items: MenuItem[] = [

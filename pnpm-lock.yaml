@@ -32,10 +32,10 @@ importers:
 
   apps/docs-worker:
     dependencies:
-      '@patchbay/svelte':
+      '@patchbayhq/svelte':
         specifier: workspace:*
         version: link:../../packages/svelte
-      '@patchbay/ui':
+      '@patchbayhq/ui':
         specifier: workspace:*
         version: link:../../packages/pb-ui
       '@sveltejs/vite-plugin-svelte':
@@ -75,7 +75,7 @@ importers:
 
   apps/pb-ui-lab:
     dependencies:
-      '@patchbay/ui':
+      '@patchbayhq/ui':
         specifier: workspace:*
         version: link:../../packages/pb-ui
     devDependencies:
@@ -91,8 +91,8 @@ importers:
 
   packages/react:
     dependencies:
-      '@patchbay/ui':
-        specifier: workspace:*
+      '@patchbayhq/ui':
+        specifier: ^0.1.0
         version: link:../pb-ui
     devDependencies:
       '@types/react':
@@ -110,8 +110,8 @@ importers:
 
   packages/svelte:
     dependencies:
-      '@patchbay/ui':
-        specifier: workspace:*
+      '@patchbayhq/ui':
+        specifier: ^0.1.0
         version: link:../pb-ui
     devDependencies:
       svelte:

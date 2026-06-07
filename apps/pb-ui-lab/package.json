@@ -1,5 +1,5 @@
 {
-  "name": "@patchbay/lab",
+  "name": "@patchbayhq/lab",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -12,7 +12,7 @@
     "test:browser": "vitest run --config vitest.config.ts"
   },
   "dependencies": {
-    "@patchbay/ui": "workspace:*"
+    "@patchbayhq/ui": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^24.10.1"

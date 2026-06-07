@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { parseComponentProps, type LineOrientation } from "@patchbay/ui";
+  import { parseComponentProps, type LineOrientation } from "@patchbayhq/ui";
 
   export let orientation: LineOrientation = "horizontal";
   export let length = 170;

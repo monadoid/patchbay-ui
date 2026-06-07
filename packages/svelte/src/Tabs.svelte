@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { parseComponentProps, type TabItem } from "@patchbay/ui";
+  import { parseComponentProps, type TabItem } from "@patchbayhq/ui";
 
   export let value = "one";
   export let items: TabItem[] = [{ value: "one", label: "One", disabled: false }];

@@ -6,14 +6,14 @@
   "type": "module",
   "scripts": {
     "dev": "vp dev apps/pb-ui-lab --host 127.0.0.1 --port 7010",
-    "dev:docs": "vp run --filter @patchbay/docs-worker dev",
-    "dev:docs:preview": "vp run --filter @patchbay/docs-worker dev:preview",
+    "dev:docs": "vp run --filter @patchbayhq/docs-worker dev",
+    "dev:docs:preview": "vp run --filter @patchbayhq/docs-worker dev:preview",
     "build": "vp run -r build",
-    "build:docs": "vp run --filter @patchbay/docs-worker build",
-    "build:lab": "vp run --filter @patchbay/lab build",
+    "build:docs": "vp run --filter @patchbayhq/docs-worker build",
+    "build:lab": "vp run --filter @patchbayhq/lab build",
     "check-types": "vp run -r check-types",
-    "test": "vp run --filter @patchbay/ui test",
-    "test:browser": "vp run --filter @patchbay/lab test:browser"
+    "test": "vp run --filter @patchbayhq/ui test",
+    "test:browser": "vp run --filter @patchbayhq/lab test:browser"
   },
   "devDependencies": {
     "@types/node": "^24.10.1",

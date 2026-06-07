@@ -2,7 +2,7 @@
   import {
     parseComponentProps,
     type ControlAppearance,
-  } from "@patchbay/ui";
+  } from "@patchbayhq/ui";
 
   export let value = false;
   export let labels = { off: "Off", on: "On" };

@@ -6,7 +6,7 @@
     type StepKey,
     type StepLoop,
     type StepNote,
-  } from "@patchbay/ui";
+  } from "@patchbayhq/ui";
   import { onMount } from "svelte";
 
   export let activeKey: StepKey = "C4";

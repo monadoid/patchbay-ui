@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { parseComponentProps, type Orientation } from "@patchbay/ui";
+  import { parseComponentProps, type Orientation } from "@patchbayhq/ui";
 
   export let level = 0;
   export let peak: number | undefined = undefined;

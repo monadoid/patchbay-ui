@@ -3,7 +3,7 @@
     parseComponentProps,
     type ButtonMode,
     type ControlAppearance,
-  } from "@patchbay/ui";
+  } from "@patchbayhq/ui";
 
   export let label = "Button";
   export let pressed = false;

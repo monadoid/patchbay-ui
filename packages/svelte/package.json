@@ -1,9 +1,37 @@
 {
-  "name": "@patchbay/svelte",
-  "private": true,
-  "version": "0.0.0",
+  "name": "@patchbayhq/svelte",
+  "version": "0.1.0",
+  "description": "Svelte wrappers for patchbay UI audio controls.",
   "license": "MIT",
   "type": "module",
+  "svelte": "./src/index.ts",
+  "types": "./src/index.ts",
+  "homepage": "https://ui.patchbay.tools",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/monadoid/patchbay-ui.git",
+    "directory": "packages/svelte"
+  },
+  "bugs": {
+    "url": "https://github.com/monadoid/patchbay-ui/issues"
+  },
+  "keywords": [
+    "audio",
+    "controls",
+    "svelte",
+    "ui"
+  ],
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "sideEffects": [
+    "./src/styles.css",
+    "./src/tailwind.css"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "exports": {
     ".": {
       "svelte": "./src/index.ts",
@@ -17,7 +45,7 @@
     "check-types": "svelte-check --tsconfig tsconfig.json"
   },
   "dependencies": {
-    "@patchbay/ui": "workspace:*"
+    "@patchbayhq/ui": "^0.1.0"
   },
   "peerDependencies": {
     "svelte": "^5.0.0"

@@ -4,7 +4,7 @@
     StepKey,
     StepLoop,
     StepNote,
-  } from "@patchbay/ui";
+  } from "@patchbayhq/ui";
   import StepSequencer from "./StepSequencer.svelte";
   import Panel from "./Panel.svelte";
   import PanelHeader from "./PanelHeader.svelte";

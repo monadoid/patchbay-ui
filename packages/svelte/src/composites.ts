@@ -4,7 +4,7 @@ import type {
   StepKey,
   StepLoop,
   StepNote,
-} from "@patchbay/ui";
+} from "@patchbayhq/ui";
 
 export type StatusTone = "idle" | "active" | "warning" | "danger";
 
